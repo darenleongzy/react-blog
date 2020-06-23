@@ -13,7 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Card from '../Card';
-
+import axios from 'axios';
 const drawerWidth = 540;
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +45,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ClippedDrawer() {
   const classes = useStyles();
-
+  axios.get('http://localhost:8000/api/articles')
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    }); 
   return (
     <div className={classes.root}>
       <CssBaseline />
