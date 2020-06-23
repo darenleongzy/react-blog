@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Form } from '../../components/Article';
 
-class Home extends React.Component {
+class Submit extends React.Component {
   constructor(props) {
     super(props);
 
@@ -86,4 +86,4 @@ const mapDispatchToProps = dispatch => ({
   setEdit: article => dispatch({ type: 'SET_EDIT', article }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Submit);
