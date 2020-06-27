@@ -18,9 +18,10 @@ const useStyles = makeStyles({
   }
 });
 
-export default function ImgMediaCard() {
+  export default function ImgMediaCard({article, ...other}) {
   const classes = useStyles();
-
+  // const article = props.article;
+  const intro = article.body.toString().substring(0,160);
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -31,11 +32,10 @@ export default function ImgMediaCard() {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            {article.title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+            {intro}
           </Typography>
         </CardContent>
       </CardActionArea>

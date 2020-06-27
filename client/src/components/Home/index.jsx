@@ -45,30 +45,54 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 export default function ClippedDrawer() {
   const classes = useStyles();
   const  [data, setData] = useState({articles:[]});
+  const [content, setContent] = useState({
+    title:'',
+    body: '',
+    author: '',
+    createdAt: '',
+  });
   useEffect(() => {
     const fetchData = async() => {
       const result = await axios.get(
         'http://localhost:8000/api/articles'
       );
-      console.log(result);
       setData(result.data);
+      setContent(result.data.articles[0]);
 
     };
     fetchData();
   }, []);
-  console.log(data);
+
+  // console.log(JSON.stringify(data.articles[0])._id);
+  // const title = data.articles[0].title ? data.articles[0].title : '';
+  // console.log(title);
+  const handleContent = (index) => {
+    console.log(index);
+    if (data.articles[index]) {
+      setContent(data.articles[index]);        
+    }
+    else {
+      console.log('not ready');
+    }
+  };
   
+  // if (data.articles[0]) {
+  //   setContent(data.articles[0]);
+  // }
+  // console.log(content.title);
 
   return (
-        <div className={classes.root}>
+    <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" noWrap>
-            Clipped drawer
+            Articles
           </Typography>
         </Toolbar>
       </AppBar>
@@ -82,157 +106,25 @@ export default function ClippedDrawer() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {data.articles.map(articles => (
-              <ListItem button key={articles._id}>
-                {articles.body}
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
+            {data.articles.map((article, index) => (
+              <div onClick={() => setContent(article)}>
+                <Card article={article} key={article._id}/>
+              </div>
             ))}
           </List>
         </div>
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
+        <Typography gutterBottom variant="h5" component="h2">
+          {content.title}
         </Typography>
+        <Divider/>
         <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
+          {content.body}
         </Typography>
       </main>
     </div>
   );
 }
-
-// class Home extends React.Component {
-  
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       articles: {},
-//       classes: useStyles(),
-//     };
-//   }
-
-//   componentDidMount() {
-//     axios.get('http://localhost:8000/api/articles')
-//     .then(response => {
-//       console.log(response.data);
-//       this.setState({
-//         articles:response,
-//       });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     }); 
-//   }
-//     render() {
-//       const classes = this.props;
-//       return (
-//         <div className={classes.root}>
-//           <CssBaseline />
-//           <AppBar position="fixed" className={classes.appBar}>
-//             <Toolbar>
-//               <Typography variant="h6" noWrap>
-//                 My Blog
-//               </Typography>
-//             </Toolbar>
-//           </AppBar>
-//           <Drawer
-//             className={classes.drawer}
-//             variant="permanent"
-//             classes={{
-//               paper: classes.drawerPaper,
-//             }}
-//           >
-//             <Toolbar />
-//             <div className={classes.drawerContainer}>
-//               <List>
-//                 {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-//                   <ListItem button key={text}>
-//                     <Card/>
-//                   </ListItem>
-//                 ))}
-//               </List>
-//             </div>
-//           </Drawer>
-//           <main className={classes.content}>
-//             <Toolbar />
-//             <Typography paragraph>
-//               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-//               ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-//               facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-//               gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-//               donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-//               adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-//               Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-//               imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-//               arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-//               donec massa sapien faucibus et molestie ac.
-//             </Typography>
-//             <Typography paragraph>
-//               Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-//               facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-//               tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-//               consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-//               vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-//               hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-//               tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-//               nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-//               accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-//             </Typography>
-//                     <Typography paragraph>
-//               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-//               ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-//               facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-//               gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-//               donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-//               adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-//               Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-//               imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-//               arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-//               donec massa sapien faucibus et molestie ac.
-//             </Typography>
-//             <Typography paragraph>
-//               Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-//               facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-//               tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-//               consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-//               vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-//               hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-//               tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-//               nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-//               accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-//             </Typography>
-
-//           </main>
-//       </div>
-//     )  
-//   }
-// } 
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import { Form } from '../../components/Article';
+import Article from '../../components/Article';
 
 class Submit extends React.Component {
   constructor(props) {
@@ -42,11 +42,11 @@ class Submit extends React.Component {
           <div className="col-12 col-lg-6 offset-lg-3">
             <h1 className="text-center">LightBlog</h1>
           </div>
-          <Form />
+          <Article />
         </div>
         <div className="row pt-5">
           <div className="col-12 col-lg-6 offset-lg-3">
-            {articles.map((article) => {
+            {articles.map((article, id) => {
               return (
                 <div className="card my-3">
                   <div className="card-header">
