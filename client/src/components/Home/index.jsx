@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
 export default function ClippedDrawer() {
   const classes = useStyles();
   const  [data, setData] = useState({articles:[]});
@@ -68,8 +67,6 @@ export default function ClippedDrawer() {
     fetchData();
   }, []);
 
-  // console.log(JSON.stringify(data.articles[0])._id);
-  // const title = data.articles[0].title ? data.articles[0].title : '';
   // console.log(title);
   const handleContent = (index) => {
     console.log(index);
@@ -81,11 +78,6 @@ export default function ClippedDrawer() {
     }
   };
   
-  // if (data.articles[0]) {
-  //   setContent(data.articles[0]);
-  // }
-  // console.log(content.title);
-
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -107,7 +99,7 @@ export default function ClippedDrawer() {
         <div className={classes.drawerContainer}>
           <List>
             {data.articles.map((article, index) => (
-              <div onClick={() => setContent(article)}>
+              <div onClick={() => setContent(article)} key={article._id}>
                 <Card article={article} key={article._id}/>
               </div>
             ))}
