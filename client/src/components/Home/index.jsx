@@ -20,7 +20,9 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    background: 'linear-gradient(25deg, #203A43 30%,#0F2027 90%)' 
+    // background: 'linear-gradient(45deg, #1f4037 30%,#237A57 90%)' 
   },
 }));
 

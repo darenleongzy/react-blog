@@ -65,8 +65,8 @@ export default function Default() {
       <Container className={classes.container}>
         <List>
           {data.articles.map((article, index) => (
-            <div className={classes.card} onClick={() => setContent(article)} key={article._id} >
-              <Card  article={article} word='600' key={article._id}/> 
+            <div className={classes.card} onClick={() => setContent(article)} key={index} >
+              <Card  article={article} word='500' key={index} valueId={index}/> 
             </div>
           ))}
         </List>
