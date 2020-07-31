@@ -11,17 +11,16 @@ import image_lizard from '../../images/thought-catalog-505eectW54k-unsplash.jpg'
 
 const useStyles = makeStyles({
   root: {
-    height: 240,
   },
   media: {
     height: 130,
   }
 });
 
-  export default function ImgMediaCard({article, ...other}) {
+  export default function ImgMediaCard({article, word, ...other}) {
   const classes = useStyles();
   // const article = props.article;
-  const intro = article.body.toString().substring(0,160);
+  const intro = article.body.toString().substring(0,word);
   return (
     <Card className={classes.root}>
       <CardActionArea>

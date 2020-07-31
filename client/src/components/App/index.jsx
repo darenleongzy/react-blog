@@ -2,6 +2,8 @@ import React from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
 import { Home } from '../../components';
+
+import { Archives } from '../../components';
 import { Article } from '../../components';
 import { Submit } from '../../components';
 

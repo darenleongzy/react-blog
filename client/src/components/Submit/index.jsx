@@ -46,14 +46,21 @@ class Submit extends React.Component {
         </div>
         <div className="row pt-5">
           <div className="col-12 col-lg-6 offset-lg-3">
-            {articles.map((article, id) => {
+            {articles.map((article) => {
               return (
                 <div className="card my-3">
                   <div className="card-header">
                     {article.title}
                   </div>
                   <div className="card-body">
-                    {article.body}
+                    {article.body.split('\n\n').map(function(item) {
+                      return (
+                        <span>
+                          {item}
+                          <br/>
+                        </span>
+                      )
+                    })}
                     <p className="mt-5 text-muted"><b>{article.author}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
                   </div>
                   <div className="card-footer">

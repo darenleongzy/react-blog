@@ -1,22 +1,18 @@
 import React, { useState , useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import Card from '../Card';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Container from '@material-ui/core/Container';
 import axios from 'axios';
-
-
-const drawerWidth = 540;
+import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
+import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
+import Archives from '../Archives';
+import Default from '../Default';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,96 +22,76 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-  },
-  drawerContainer: {
-    overflow: 'auto',
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
 }));
 
 
-export default function ClippedDrawer() {
-  const classes = useStyles();
-  const  [data, setData] = useState({articles:[]});
-  const [content, setContent] = useState({
-    title:'',
-    body: '',
-    author: '',
-    createdAt: '',
-  });
-  useEffect(() => {
-    const fetchData = async() => {
-      const result = await axios.get(
-        'http://localhost:8000/api/articles'
-      );
-      setData(result.data);
-      setContent(result.data.articles[0]);
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
-    };
-    fetchData();
-  }, []);
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 
-  // console.log(title);
-  const handleContent = (index) => {
-    console.log(index);
-    if (data.articles[index]) {
-      setContent(data.articles[index]);        
-    }
-    else {
-      console.log('not ready');
-    }
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
   };
+}
+
+export default function Home() {
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-            Articles
+          <Typography variant="h6" style={{flex: 1}}>
+            SG Fin Free
           </Typography>
+          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+            <Tab label="Home" {...a11yProps(0)} />
+            <Tab label="About Me" {...a11yProps(1)} />
+            <Tab label="Archives" {...a11yProps(2)} />
+          </Tabs>
+
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <Toolbar />
-        <div className={classes.drawerContainer}>
-          <List>
-            {data.articles.map((article, index) => (
-              <div onClick={() => setContent(article)} key={article._id}>
-                <Card article={article} key={article._id}/>
-              </div>
-            ))}
-          </List>
-        </div>
-      </Drawer>
-      <main className={classes.content}>
-        <Toolbar />
-        <Typography gutterBottom variant="h5" component="h2">
-          {content.title}
-        </Typography>
-        <Divider/>
-        <Typography paragraph>
-          {content.body}
-        </Typography>
-      </main>
+      <TabPanel value={value} index={0}>
+        <Default/>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        Item Two
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <Archives/>
+      </TabPanel>
     </div>
   );
 }
