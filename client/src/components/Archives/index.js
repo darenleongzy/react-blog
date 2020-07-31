@@ -93,7 +93,7 @@ export default function Archives() {
           <List>
             {data.articles.map((article, index) => (
               <div onClick={() => setContent(article)} key={article._id}>
-                <Card article={article} word='240' key={article._id}/>
+                <Card article={article} word='240' valueId={index}/>
               </div>
             ))}
           </List>
