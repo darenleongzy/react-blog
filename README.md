@@ -6,9 +6,9 @@ To run:
 
 In /server folder:
 
-  nodemon app.js start
+  "nodemon app.js start"
 
 In /client folder:
 
-  npm start
+  "npm start"
 
