@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import Archives from '../Archives';
 import Default from '../Default';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,6 +68,7 @@ export default function Home() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const history = useHistory();
 
   
   return (
@@ -74,7 +76,7 @@ export default function Home() {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" style={{flex: 1}}>
+          <Typography variant="h6" style={{flex: 1}} onClick = { () => history.push('/admin')}>
             SG Fin Free
           </Typography>
           <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
@@ -89,7 +91,7 @@ export default function Home() {
         <Default/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Archives/>

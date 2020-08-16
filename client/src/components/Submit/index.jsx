@@ -39,13 +39,13 @@ class Submit extends React.Component {
     return (
       <div className="container">
         <div className="row pt-5">
-          <div className="col-12 col-lg-6 offset-lg-3">
+          <div className="col-lg-12">
             <h1 className="text-center">LightBlog</h1>
           </div>
           <Article />
         </div>
         <div className="row pt-5">
-          <div className="col-12 col-lg-6 offset-lg-3">
+          <div className="col-lg-12">
             {articles.map((article) => {
               return (
                 <div className="card my-3">
