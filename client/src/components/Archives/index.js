@@ -15,7 +15,7 @@ import Card from '../Card';
 import DefaultAppBar from '../AppBar';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
-
+import Single from '../Single';
 
 const drawerWidth = '30%';
 
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(1),
   },
 }));
 
@@ -73,9 +73,6 @@ export default function Archives() {
     if (data.articles[index]) {
       setContent(data.articles[index]);        
     }
-    else {
-      console.log('not ready');
-    }
   };
   
   return (
@@ -101,20 +98,7 @@ export default function Archives() {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        <Typography component={'span'} gutterBottom variant="h5" component="h2">
-          {content.title}
-        </Typography>
-        <Divider/>
-        <Typography paragraph>
-        {content.body.split('\n\n').map(function(item) {
-            return (
-              <span>
-                {item}
-                <br/>
-              </span>
-            )
-          })}
-        </Typography>
+      <Single article={content} />
       </main>
     </div>
   );

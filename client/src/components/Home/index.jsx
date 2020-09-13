@@ -72,7 +72,7 @@ export default function Home() {
 
   
   return (
-    <div className={classes.root}>
+    <Box>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
@@ -96,7 +96,7 @@ export default function Home() {
       <TabPanel value={value} index={2}>
         <Archives/>
       </TabPanel>
-    </div>
+    </Box>
   );
 }
 

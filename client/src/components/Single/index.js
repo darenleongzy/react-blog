@@ -36,86 +36,92 @@ const useStyles = makeStyles({
 
 export default function Single({article}) {
   const classes = useStyles();
-  console.log(article);
-  const content = article.body
+  const content = article.body;
   const history = useHistory();
+  const article_id = article._id;
+    
+  console.log("articleid ",article._id);
   const  [data, setData] = useState({comments:[]});
+
   useEffect(() => {
     const fetchData = async() => {
+      console.log("in use effect", article_id);
       const result = await axios.get(
-        `http://localhost:8000/api/comments/article/${article._id}` 
+        `http://localhost:8000/api/comments/article/${article_id}` 
       );
-      console.log(result.data);
-      setData(result.data);
+        setData(result.data);
     };
     fetchData();
-  }, []);
-  console.log(data);
+  },[article._id]);
+  // console.log("fetched comments: ",data);
   return (
-      <Paper elevation={2}  m={10}>
-        <Container className={classes.container}>
-          <Typography gutterBottom variant="h5" component="h2">
-            {article.title}
-          </Typography>
-          <Typography gutterBottom variant="subtitle1" component="h5">
-            {article.author}
-            <br/>
-            {article.updatedAt}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {content.split('\n\n').map(function(item) {
-                return (
-                  <span>
-                    <br/>
-                    {item}
-                    <br/>
-                  </span>
-                )
-              })}
-          </Typography>
-          <Box p={4}>
-            <Divider variant="middle" />
-            <Box className={classes.divider} p={2}>
-              <Typography gutterBottom variant="h5" component="h2">
-                Comments
-              </Typography>
-              <Comment article={article._id}/>
-            </Box>
-            <Box pt={4} >
-              <Box p={2}>
-                <Divider variant="middle" />
+    article._id ? 
+      (
+        <Paper elevation={2}  m={10}>
+          <Container className={classes.container}>
+            <Typography gutterBottom variant="h5" component="h2">
+              {article.title}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1" component="h5">
+              {article.author}
+              <br/>
+              {article.updatedAt}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {content.split('\n\n').map(function(item) {
+                  return (
+                    <span>
+                      <br/>
+                      {item}
+                      <br/>
+                    </span>
+                  )
+                })}
+            </Typography>
+            <Box p={4}>
+              <Divider variant="middle" />
+              <Box className={classes.divider} p={2}>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Comments
+                </Typography>
+                <Comment article={article._id}/>
               </Box>
-              {data.comments.map((comment) => {
-                return (
-                  <Box pt={2}>
-                  <Card  variant="outlined" className={classes.card}>
-                    <CardContent>
-                      <Typography variant="h5" className={classes.commentTitle} color="textSecondary" gutterBottom>
-                        {comment.username}
-                      </Typography>
-                      <Typography  color="textSecondary" component="h1">
-                        {moment(new Date(article.createdAt)).fromNow()}
-                      </Typography>
-                      <Typography  component="h1">
-                         {comment.text.split('\n\n').map(function(item) {
-                            return (
-                              <span>
-                                {item}
-                                <br/>
-                              </span>
-                            )
-                          })}
-                      </Typography>
-                    </CardContent>
-                 </Card>
-                 </Box>
-                )
-              })}
-            </Box>
-          </Box> 
-        </Container> 
+              <Box pt={4} >
+                <Box p={2}>
+                  <Divider variant="middle" />
+                </Box>
+                {data.comments.map((comment) => {
+                  return (
+                    <Box pt={2}>
+                    <Card  variant="outlined" className={classes.card}>
+                      <CardContent>
+                        <Typography variant="h5" className={classes.commentTitle} color="textSecondary" gutterBottom>
+                          {comment.username}
+                        </Typography>
+                        <Typography  color="textSecondary" component="h1">
+                          {moment(new Date(article.createdAt)).fromNow()}
+                        </Typography>
+                        <Typography  component="h1">
+                           {comment.text.split('\n\n').map(function(item) {
+                              return (
+                                <span>
+                                  {item}
+                                  <br/>
+                                </span>
+                              )
+                            })}
+                        </Typography>
+                      </CardContent>
+                   </Card>
+                   </Box>
+                  )
+                })}
+              </Box>
+            </Box> 
+          </Container> 
 
-      </Paper>
+        </Paper>
+      ) : null 
 
   );
 }

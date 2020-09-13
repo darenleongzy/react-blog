@@ -17,7 +17,7 @@ class Comment extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     if(nextProps.commentToEdit) {
       this.setState({
         text: nextProps.commentToEdit.text,
