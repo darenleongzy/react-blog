@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import history from '../History';
 import { Article } from '../../components';
+import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,39 +18,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
 export default function Single(props) {
 
   const classes = useStyles();
@@ -62,7 +30,9 @@ export default function Single(props) {
   // console.log("article111 ",content);
   
   return (
-    <Article article={content} />
+    <Card>
+      <Article article={content} />
+    </Card>
   );
 }
 

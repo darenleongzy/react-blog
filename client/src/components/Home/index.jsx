@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import Archives from '../Archives';
 import Default from '../Default';
-import { useHistory } from "react-router-dom";
+import history from '../History';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +34,6 @@ export default function Home() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const history = useHistory();
 
   
   return (

@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
-import { useHistory } from "react-router-dom";
 import Comment from '../Comment';
 import Box from '@material-ui/core/Box';
 import axios from 'axios';
@@ -41,7 +40,6 @@ export default function Article(props) {
 
   const classes = useStyles();
   const content = article.body;
-  let history = useHistory();
   const article_id = article._id;
     
   console.log("articleid ",article._id);
@@ -61,7 +59,7 @@ export default function Article(props) {
   return (
     article._id ? 
       (
-        <Paper elevation={2}  m={10}>
+        <Paper elevation={3}  m={10}>
         <CssBaseline/>
           <Container className={classes.container}>
             <Typography gutterBottom variant="h5" component="h2">
