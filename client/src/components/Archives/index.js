@@ -15,7 +15,7 @@ import Card from '../Card';
 import DefaultAppBar from '../AppBar';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
-import Single from '../Single';
+import { Article } from '../../components';
 
 const drawerWidth = '30%';
 
@@ -77,7 +77,6 @@ export default function Archives() {
   
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -97,8 +96,7 @@ export default function Archives() {
         </div>
       </Drawer>
       <main className={classes.content}>
-        <Toolbar />
-      <Single article={content} />
+      <Article article={content} />
       </main>
     </div>
   );

@@ -1,99 +1,132 @@
+import React, { useState , useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
+import Divider from '@material-ui/core/Divider';
+import { useHistory } from "react-router-dom";
+import Comment from '../Comment';
+import Box from '@material-ui/core/Box';
 import axios from 'axios';
-import React from 'react';
-import { connect } from 'react-redux';
+import moment from 'moment';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
-class Article extends React.Component {
-  constructor(props) {
-    super(props);
+const useStyles = makeStyles({
+  paper: {
+    // height: 1000,
+    margin: 20,
+    padding:20,
+  },
+  container: {
+    padding: 20,
+  },
+   divider: {
+    padding: 20,
+    margin: 10,
+  },
+  commenTitle: {
+    fontSize: 14,
+  },
+});
 
-    this.state = {
-      title: '',
-      body: '',
-      author: '',
-    }
+export default function Article(props) {
+  const article = props.article;  
+  // console.log("article ",article);
 
-    this.handleChangeField = this.handleChangeField.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  const classes = useStyles();
+  const content = article.body;
+  let history = useHistory();
+  const article_id = article._id;
+    
+  console.log("articleid ",article._id);
+  const  [data, setData] = useState({comments:[]});
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.articleToEdit) {
-      this.setState({
-        title: nextProps.articleToEdit.title,
-        body: nextProps.articleToEdit.body,
-        author: nextProps.articleToEdit.author,
-      });
-    }
-  }
+  useEffect(() => {
+    const fetchData = async() => {
+      console.log("in use effect", article_id);
+      const result = await axios.get(
+        `http://localhost:8000/api/comments/article/${article_id}` 
+      );
+        setData(result.data);
+    };
+    fetchData();
+  },[article._id]);
+  // console.log("fetched comments: ",data);
+  return (
+    article._id ? 
+      (
+        <Paper elevation={2}  m={10}>
+        <CssBaseline/>
+          <Container className={classes.container}>
+            <Typography gutterBottom variant="h5" component="h2">
+              {article.title}
+            </Typography>
+            <Typography gutterBottom variant="subtitle1" component="h5">
+              {article.author}
+              <br/>
+              {article.updatedAt}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {content.split('\n\n').map(function(item) {
+                  return (
+                    <span>
+                      <br/>
+                      {item}
+                      <br/>
+                    </span>
+                  )
+                })}
+            </Typography>
+            <Box p={4}>
+              <Divider variant="middle" />
+              <Box className={classes.divider} p={2}>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Comments
+                </Typography>
+                <Comment article={article._id}/>
+              </Box>
+              <Box pt={4} >
+                <Box p={2}>
+                  <Divider variant="middle" />
+                </Box>
+                {data.comments.map((comment) => {
+                  return (
+                    <Box pt={2}>
+                    <Card  variant="outlined" className={classes.card}>
+                      <CardContent>
+                        <Typography variant="h5" className={classes.commentTitle} color="textSecondary" gutterBottom>
+                          {comment.username}
+                        </Typography>
+                        <Typography  color="textSecondary" component="h1">
+                          {moment(new Date(article.createdAt)).fromNow()}
+                        </Typography>
+                        <Typography  component="h1">
+                           {comment.text.split('\n\n').map(function(item) {
+                              return (
+                                <span>
+                                  {item}
+                                  <br/>
+                                </span>
+                              )
+                            })}
+                        </Typography>
+                      </CardContent>
+                   </Card>
+                   </Box>
+                  )
+                })}
+              </Box>
+            </Box> 
+          </Container> 
 
-  handleSubmit(){
-    const { onSubmit, articleToEdit, onEdit } = this.props;
-    const { title, body, author } = this.state;
+        </Paper>
+      ) : null 
 
-    if(!articleToEdit) {
-      return axios.post('http://localhost:8000/api/articles', {
-        title,
-        body,
-        author,
-      })
-        .then((res) => onSubmit(res.data))
-        .then(() => this.setState({ title: '', body: '', author: '' }));
-    } else {
-      return axios.patch(`http://localhost:8000/api/articles/${articleToEdit._id}`, {
-        title,
-        body,
-        author,
-      })
-        .then((res) => onEdit(res.data))
-        .then(() => this.setState({ title: '', body: '', author: '' }));
-    }
-  }
-
-  handleChangeField(key, event) {
-    this.setState({
-      [key]: event.target.value,
-    });
-  }
-
-  render() {
-    const { articleToEdit } = this.props;
-    const { title, body, author } = this.state;
-
-    return (
-      <div className="col-lg-12 ">
-        <input
-          onChange={(ev) => this.handleChangeField('title', ev)}
-          value={title}
-          className="form-control my-3"
-          placeholder="Article Title"
-        />
-        <input
-          onChange={(ev) => this.handleChangeField('author', ev)}
-          value={author}
-          className="form-control my-3"
-          placeholder="Article Author"
-        />
-        <textarea
-          onChange={(ev) => this.handleChangeField('body', ev)}
-          className="form-control my-3"
-          placeholder="Article Body"
-          value={body}
-          rows="10"
-        />
-
-        <button onClick={this.handleSubmit} className="btn btn-primary float-right">{articleToEdit ? 'Update' : 'Submit'}</button>
-      </div>
-    )
-  }
+  );
 }
-
-const mapDispatchToProps = dispatch => ({
-  onSubmit: data => dispatch({ type: 'SUBMIT_ARTICLE', data }),
-  onEdit: data => dispatch({ type: 'EDIT_ARTICLE', data }),
-});
-
-const mapStateToProps = state => ({
-  articleToEdit: state.home.articleToEdit,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Article);

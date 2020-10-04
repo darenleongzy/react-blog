@@ -1,5 +1,5 @@
 import React from 'react';
-import createHistory from 'history/createBrowserHistory';
+import  { History } from './components';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Route, Switch, Router } from 'react-router-dom';
@@ -11,7 +11,7 @@ import '../resources/scss/style.scss';
 
 
 ReactDOM.render(
-  <Router history={createHistory()}>
+  <Router history={History}>
     <Provider store={store}>
       <Switch>
         <Route path="/" component={App} />

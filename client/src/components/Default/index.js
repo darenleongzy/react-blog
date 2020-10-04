@@ -15,7 +15,7 @@ import DefaultAppBar from '../AppBar';
 import axios from 'axios';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
-import Single from '../Single';
+import { Article } from '../../components';
 
 const drawerWidth = '30%';
 
@@ -32,68 +32,62 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Default() {
+  let history = useHistory();
+
   const classes = useStyles();
   const  [data, setData] = useState({articles:[]});
-  const [content, setContent] = useState({
-    title:'',
-    body: '',
-    author: '',
-    createdAt: '',
-  });
-  const [singleContent, setSingleContent] = useState(false);
+
   useEffect(() => {
     const fetchData = async() => {
       const result = await axios.get(
         'http://localhost:8000/api/articles'
       );
       setData(result.data);
-      setContent(result.data.articles[0]);
 
     };
     fetchData();
   }, []);
 
   // console.log(title);
-  const displayContent = (index) => {
-    console.log(index);
+  const displayContent = (props) => {
+    console.log("yo whats up ", props.index);
+    console.log("data ", data);
+    const index = props.index;
+
+
     if (data.articles[index]) {
-      setContent(data.articles[index]);        
+      // setContent(data.articles[index]);
+      history.push({
+        pathname: '/single',
+        state: { article: data.articles[index]},
+      });        
     }
     else {
-      console.log('not ready');
+      console.log('cant find content');
     }
-    setSingleContent(true);
-    console.log(singleContent);
-    console.log(content);
+    // let article = content;
+    
+    // setSingleContent(true);
+    // console.log(singleContent);
+    // console.log(content);
+
   };
 
   
-  const history = useHistory();
   return (
     <div>
       <CssBaseline />
-      <Toolbar/>
       <Container className={classes.container}>
-      {!singleContent
-        ? (
         <List>
           {data.articles.map((article, index) => (
-            <div className={classes.card} onClick={() => setContent(article)} key={index} >
+            <div className={classes.card} key={index} >
             <CardActionArea  onClick={() => displayContent({index})} >
               <Card  article={article} word='500' key={index} valueId={index}/> 
             </CardActionArea>  
             </div>
           ))}
         </List>
-        )
-        :(
-          <Container>
-            <Button onClick={() => setSingleContent(false)}> Back </Button>
-            <Single article={content} />
-          </Container>
-          )
-        
-      }
+  
       </Container>
     </div>
   );

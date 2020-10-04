@@ -1,127 +1,68 @@
 import React, { useState , useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
-import Divider from '@material-ui/core/Divider';
-import { useHistory } from "react-router-dom";
-import Comment from '../Comment';
-import Box from '@material-ui/core/Box';
-import axios from 'axios';
-import moment from 'moment';
+import PropTypes from 'prop-types';
+import history from '../History';
+import { Article } from '../../components';
 
-const useStyles = makeStyles({
-  paper: {
-    // height: 1000,
-    margin: 20,
-    padding:20,
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
   },
-  container: {
-    padding: 20,
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    background: 'linear-gradient(25deg, #203A43 30%,#0F2027 90%)' 
+    // background: 'linear-gradient(45deg, #1f4037 30%,#237A57 90%)' 
   },
-   divider: {
-    padding: 20,
-    margin: 10,
-  },
-  commenTitle: {
-    fontSize: 14,
-  },
-});
+}));
 
-export default function Single({article}) {
-  const classes = useStyles();
-  const content = article.body;
-  const history = useHistory();
-  const article_id = article._id;
-    
-  console.log("articleid ",article._id);
-  const  [data, setData] = useState({comments:[]});
 
-  useEffect(() => {
-    const fetchData = async() => {
-      console.log("in use effect", article_id);
-      const result = await axios.get(
-        `http://localhost:8000/api/comments/article/${article_id}` 
-      );
-        setData(result.data);
-    };
-    fetchData();
-  },[article._id]);
-  // console.log("fetched comments: ",data);
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
   return (
-    article._id ? 
-      (
-        <Paper elevation={2}  m={10}>
-          <Container className={classes.container}>
-            <Typography gutterBottom variant="h5" component="h2">
-              {article.title}
-            </Typography>
-            <Typography gutterBottom variant="subtitle1" component="h5">
-              {article.author}
-              <br/>
-              {article.updatedAt}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {content.split('\n\n').map(function(item) {
-                  return (
-                    <span>
-                      <br/>
-                      {item}
-                      <br/>
-                    </span>
-                  )
-                })}
-            </Typography>
-            <Box p={4}>
-              <Divider variant="middle" />
-              <Box className={classes.divider} p={2}>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Comments
-                </Typography>
-                <Comment article={article._id}/>
-              </Box>
-              <Box pt={4} >
-                <Box p={2}>
-                  <Divider variant="middle" />
-                </Box>
-                {data.comments.map((comment) => {
-                  return (
-                    <Box pt={2}>
-                    <Card  variant="outlined" className={classes.card}>
-                      <CardContent>
-                        <Typography variant="h5" className={classes.commentTitle} color="textSecondary" gutterBottom>
-                          {comment.username}
-                        </Typography>
-                        <Typography  color="textSecondary" component="h1">
-                          {moment(new Date(article.createdAt)).fromNow()}
-                        </Typography>
-                        <Typography  component="h1">
-                           {comment.text.split('\n\n').map(function(item) {
-                              return (
-                                <span>
-                                  {item}
-                                  <br/>
-                                </span>
-                              )
-                            })}
-                        </Typography>
-                      </CardContent>
-                   </Card>
-                   </Box>
-                  )
-                })}
-              </Box>
-            </Box> 
-          </Container> 
-
-        </Paper>
-      ) : null 
-
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
   );
 }
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+export default function Single(props) {
+
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  const content = props.article.location.state.article;  
+  // console.log("article111 ",content);
+  
+  return (
+    <Article article={content} />
+  );
+}
+

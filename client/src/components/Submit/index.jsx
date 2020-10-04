@@ -3,7 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import Article from '../../components/Article';
+import { Editor } from '../../components';
 
 class Submit extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class Submit extends React.Component {
           <div className="col-lg-12">
             <h1 className="text-center">LightBlog</h1>
           </div>
-          <Article />
+          <Editor />
         </div>
         <div className="row pt-5">
           <div className="col-lg-12">
