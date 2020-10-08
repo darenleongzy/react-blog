@@ -19,11 +19,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 const useStyles = makeStyles({
   paper: {
     // height: 1000,
-    margin: 20,
-    padding:20,
+    marginBottom:10,
   },
   container: {
     padding: 20,
+    maxWidth: 'md',
   },
    divider: {
     padding: 20,
@@ -41,6 +41,7 @@ export default function Article(props) {
   const classes = useStyles();
   const content = article.body;
   const article_id = article._id;
+  const updated_date = moment(new Date(article.updatedAt)).format('MMMM Do YYYY');
     
   console.log("articleid ",article._id);
   const  [data, setData] = useState({comments:[]});
@@ -54,21 +55,20 @@ export default function Article(props) {
         setData(result.data);
     };
     fetchData();
-  },[article._id]);
+  },[article._id,data]);
   // console.log("fetched comments: ",data);
   return (
     article._id ? 
       (
         <Paper elevation={3}  m={10}>
-        <CssBaseline/>
           <Container className={classes.container}>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h4" component="h4">
               {article.title}
             </Typography>
-            <Typography gutterBottom variant="subtitle1" component="h5">
+            <Typography gutterBottom variant="subtitle1" component="subtitle1">
               {article.author}
               <br/>
-              {article.updatedAt}
+              {updated_date}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
               {content.split('\n\n').map(function(item) {
@@ -81,30 +81,31 @@ export default function Article(props) {
                   )
                 })}
             </Typography>
-            <Box p={4}>
-              <Divider variant="middle" />
-              <Box className={classes.divider} p={2}>
+            <Box pt={4}>
+              <Divider variant="li" />
+            </Box>
+            <Box pt={4}>
+              <Card className={classes.divider} p={2}>
                 <Typography gutterBottom variant="h5" component="h2">
                   Comments
                 </Typography>
                 <Comment article={article._id}/>
-              </Box>
+              </Card>
               <Box pt={4} >
-                <Box p={2}>
-                  <Divider variant="middle" />
+                <Box pt={2}>
+                  <Divider variant="li" />
                 </Box>
                 {data.comments.map((comment) => {
                   return (
-                    <Box pt={2}>
-                    <Card  variant="outlined" className={classes.card}>
-                      <CardContent>
-                        <Typography variant="h5" className={classes.commentTitle} color="textSecondary" gutterBottom>
+                    <Paper elevation={1} className={classes.paper}>
+                    <Box p={2}>
+                        <Typography variant="h6" className={classes.commentTitle} gutterBottom>
                           {comment.username}
                         </Typography>
-                        <Typography  color="textSecondary" component="h1">
-                          {moment(new Date(article.createdAt)).fromNow()}
+                        <Typography   variant="subtitle1">
+                          {moment(new Date(comment.updatedAt)).fromNow()}
                         </Typography>
-                        <Typography  component="h1">
+                        <Typography  variant="subtitle1" color="textSecondary">
                            {comment.text.split('\n\n').map(function(item) {
                               return (
                                 <span>
@@ -114,9 +115,8 @@ export default function Article(props) {
                               )
                             })}
                         </Typography>
-                      </CardContent>
-                   </Card>
-                   </Box>
+                    </Box>
+                   </Paper>
                   )
                 })}
               </Box>

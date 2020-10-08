@@ -8,6 +8,7 @@ import store from './store';
 import { App } from './components';
 
 import '../resources/scss/style.scss';
+// import 'fontsource-roboto';
 
 
 ReactDOM.render(
