@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 
 import history from '../History';
 
@@ -27,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     background: 'linear-gradient(25deg, #203A43 30%,#0F2027 90%)' 
     // background: 'linear-gradient(45deg, #1f4037 30%,#237A57 90%)' 
   },
+  button: {
+  	size: 'large',
+  }
 }));
 
 const App = (props) => {
@@ -36,12 +40,16 @@ const App = (props) => {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          	<Typography variant="h6" style={{flex: 1}} onClick = { () => history.push('/')}>
+	        <Box pl={4} style={{flex: 1}}>
+          	<Typography variant="h6"  onClick = { () => history.push('/')}>
             	SG Fin Free
           	</Typography>
-        	<Button color="inherit"onClick={() => { history.push('/') }}>Home</Button>
-        	<Button color="inherit">About</Button>
-        	<Button color="inherit" onClick={() => { history.push('/archives') }}> Archives</Button>
+          	</Box>
+          	<Box pr={5}>
+	        	<Button className={classes.button} color="inherit"onClick={() => { history.push('/') }}>Home</Button>
+	        	<Button className={classes.button} color="inherit">About</Button>
+	        	<Button className={classes.button} color="inherit" onClick={() => { history.push('/archives') }}> Archives</Button>
+	        </Box>
         </Toolbar>
       </AppBar>
       <Toolbar/>
