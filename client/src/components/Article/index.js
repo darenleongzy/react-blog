@@ -15,6 +15,7 @@ import Box from '@material-ui/core/Box';
 import axios from 'axios';
 import moment from 'moment';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 const useStyles = makeStyles({
   paper: {
@@ -71,15 +72,7 @@ export default function Article(props) {
               {updated_date}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              {content.split('\n\n').map(function(item) {
-                  return (
-                    <span>
-                      <br/>
-                      {item}
-                      <br/>
-                    </span>
-                  )
-                })}
+              { ReactHtmlParser(article.body)};
             </Typography>
             <Box pt={4}>
               <Divider variant="li" />

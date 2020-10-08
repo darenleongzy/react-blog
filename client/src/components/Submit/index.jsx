@@ -4,7 +4,9 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 import { Editor } from '../../components';
-
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 class Submit extends React.Component {
   constructor(props) {
     super(props);
@@ -40,8 +42,9 @@ class Submit extends React.Component {
       <div className="container">
         <div className="row pt-5">
           <div className="col-lg-12">
-            <h1 className="text-center">LightBlog</h1>
+            <h1 className="text-center">New Post</h1>
           </div>
+
           <Editor />
         </div>
         <div className="row pt-5">
@@ -53,15 +56,9 @@ class Submit extends React.Component {
                     {article.title}
                   </div>
                   <div className="card-body">
-                    {article.body.split('\n\n').map(function(item) {
-                      return (
-                        <span>
-                          {item}
-                          <br/>
-                        </span>
-                      )
-                    })}
+                    {ReactHtmlParser(article.body)}
                     <p className="mt-5 text-muted"><b>{article.author}</b> {moment(new Date(article.createdAt)).fromNow()}</p>
+                    
                   </div>
                   <div className="card-footer">
                     <div className="row">

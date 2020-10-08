@@ -12,7 +12,7 @@ import image2 from '../../images/image2.jpg'
 import image3 from '../../images/image3.jpg'
 import image4 from '../../images/image4.jpg'
 import image5 from '../../images/image5.jpg'
-
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 const useStyles = makeStyles({
   root: {
@@ -42,7 +42,7 @@ export default function ImgMediaCard({article, word, valueId, ...other}) {
             {article.title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {intro}
+            {ReactHtmlParser(intro)}
           </Typography>
         </CardContent>
       </CardActionArea>

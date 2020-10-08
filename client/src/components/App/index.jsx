@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 const App = (props) => {
   const classes = useStyles();
   return (
-  	<box>
+  	<Box>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
@@ -61,7 +61,7 @@ const App = (props) => {
 
 
     </Switch>
-    </box>
+    </Box>
   )
 }
 
