@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
   container: {
     padding: 20,
-    maxWidth: 'md',
+    width: '80%',
   },
    divider: {
     padding: 20,
