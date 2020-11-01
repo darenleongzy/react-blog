@@ -18,7 +18,7 @@ app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'client/dist')));
-app.use(session({ secret: 'LightBlog', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+app.use(session({ secret: 'Blog', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
 if(!isProduction) {
   app.use(errorHandler());
@@ -70,5 +70,5 @@ app.use((err, req, res) => {
   });
 });
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 const server = app.listen(port, () => console.log('connected on port ' + port));

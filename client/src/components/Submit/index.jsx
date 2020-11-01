@@ -18,14 +18,14 @@ class Submit extends React.Component {
   componentDidMount() {
     const { onLoad } = this.props;
 
-    axios('http://localhost:8000/api/articles')
+    axios('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles')
       .then((res) => onLoad(res.data));
   }
 
   handleDelete(id) {
     const { onDelete } = this.props;
 
-    return axios.delete(`http://localhost:8000/api/articles/${id}`)
+    return axios.delete(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles/${id}`)
       .then(() => onDelete(id));
   }
 

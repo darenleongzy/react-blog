@@ -58,7 +58,7 @@ export default function Archives() {
   useEffect(() => {
     const fetchData = async() => {
       const result = await axios.get(
-        'http://localhost:8000/api/articles'
+        'https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles'
       );
       setData(result.data);
       setContent(result.data.articles[0]);

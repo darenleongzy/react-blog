@@ -51,12 +51,12 @@ export default function Article(props) {
     const fetchData = async() => {
       console.log("in use effect", article_id);
       const result = await axios.get(
-        `http://localhost:8000/api/comments/article/${article_id}` 
+        `https://api-dot-darenleong-webapp.et.r.appspot.com:/api/comments/article/${article_id}` 
       );
         setData(result.data);
     };
     fetchData();
-  },[article._id,data]);
+  },[article._id]);
   // console.log("fetched comments: ",data);
   return (
     article._id ? 

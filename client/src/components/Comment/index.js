@@ -33,7 +33,7 @@ class Comment extends React.Component {
     const article = this.props.article;
 
     if(!commentToEdit) {
-      return axios.post('http://localhost:8000/api/comments', {
+      return axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/comments', {
         text,
         username,
         article,
@@ -41,7 +41,7 @@ class Comment extends React.Component {
         .then((res) => onSubmit(res.data))
         .then(() => this.setState({ text: '', username: '', article: '' }));
     } else {
-      return axios.patch(`http://localhost:8000/api/comments/${commentToEdit._id}`, {
+      return axios.patch(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/comments/${commentToEdit._id}`, {
         text,
         username,
         article,

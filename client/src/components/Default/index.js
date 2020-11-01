@@ -40,7 +40,7 @@ export default function Default() {
   useEffect(() => {
     const fetchData = async() => {
       const result = await axios.get(
-        'http://localhost:8000/api/articles'
+        'https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles'
       );
       setData(result.data);
 
