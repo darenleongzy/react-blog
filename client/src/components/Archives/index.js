@@ -54,6 +54,7 @@ export default function Archives() {
     body: '',
     author: '',
     createdAt: '',
+    _id: '',
   });
   useEffect(() => {
     const fetchData = async() => {
@@ -69,7 +70,7 @@ export default function Archives() {
 
   // console.log(title);
   const handleContent = (index) => {
-    console.log(index);
+    console.log(data.articles[index]);
     if (data.articles[index]) {
       setContent(data.articles[index]);        
     }

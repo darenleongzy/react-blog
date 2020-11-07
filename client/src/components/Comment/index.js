@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 class Comment extends React.Component {
   constructor(props) {
@@ -17,15 +18,6 @@ class Comment extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidUpdate(nextProps) {
-    if(nextProps.commentToEdit) {
-      this.setState({
-        text: nextProps.commentToEdit.text,
-        username: nextProps.commentToEdit.username,
-        article: nextProps.commentToEdit.article,
-      });
-    }
-  }
 
   handleSubmit(){
     const { onSubmit, commentToEdit, onEdit } = this.props;
@@ -39,7 +31,8 @@ class Comment extends React.Component {
         article,
       })
         .then((res) => onSubmit(res.data))
-        .then(() => this.setState({ text: '', username: '', article: '' }));
+        .then(() => this.setState({ text: '', username: '', article: '' }))
+        .then(() => this.props.parentCallback("hi"));
     } else {
       return axios.patch(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/comments/${commentToEdit._id}`, {
         text,
@@ -47,7 +40,8 @@ class Comment extends React.Component {
         article,
       })
         .then((res) => onEdit(res.data))
-        .then(() => this.setState({ text: '', username: '', article: '' }));
+        .then(() => this.setState({ text: '', username: '', article: '' }))
+        .then(() => this.props.parentCallback("hi"));
     }
   }
 
@@ -62,7 +56,10 @@ class Comment extends React.Component {
     const { text, username, article } = this.state;
 
     return (
-      <Box b={2}>
+      <Box p={7}>
+          <Typography gutterBottom variant="h5" component="h2">
+           Comments
+          </Typography>
           <input
             onChange={(ev) => this.handleChangeField('username', ev)}
             value={username}

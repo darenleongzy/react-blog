@@ -3,7 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import history from '../History';
 import { Article } from '../../components';
-import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
+
+import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import moment from 'moment';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,13 +31,16 @@ export default function Single(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const content = props.article.location.state.article;  
-  // console.log("article111 ",content);
+  const article = props.article.location.state.article;  
+  
   
   return (
-    <Card>
-      <Article article={content} />
-    </Card>
+    <Container>
+      <Paper  elevation={2}> 
+        <Article article={article} />
+      </Paper>
+
+    </Container>
   );
 }
 

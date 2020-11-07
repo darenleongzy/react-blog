@@ -6,16 +6,16 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Comment from '../Comment';
-import Box from '@material-ui/core/Box';
-import axios from 'axios';
 import moment from 'moment';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import axios from 'axios';
 
 const useStyles = makeStyles({
   paper: {
@@ -37,31 +37,36 @@ const useStyles = makeStyles({
 
 export default function Article(props) {
   const article = props.article;  
-  // console.log("article ",article);
-
   const classes = useStyles();
   const content = article.body;
   const article_id = article._id;
+  console.log("final", article_id)
   const updated_date = moment(new Date(article.updatedAt)).format('MMMM Do YYYY');
+
     
-  console.log("articleid ",article._id);
   const  [data, setData] = useState({comments:[]});
+  const [refreshKey, setRefreshKey] = useState(false);
+
+  const callbackFunction = (childData) => {
+    setRefreshKey(!refreshKey);
+  }
 
   useEffect(() => {
     const fetchData = async() => {
-      console.log("in use effect", article_id);
       const result = await axios.get(
         `https://api-dot-darenleong-webapp.et.r.appspot.com:/api/comments/article/${article_id}` 
       );
         setData(result.data);
     };
     fetchData();
-  },[article._id]);
+  },[refreshKey, article_id]);
+
+
   // console.log("fetched comments: ",data);
   return (
     article._id ? 
       (
-        <Paper elevation={3}  m={10}>
+        <Paper elevation={1}  m={10}>
           <Container className={classes.container}>
             <Typography gutterBottom variant="h4" component="h4">
               {article.title}
@@ -72,48 +77,51 @@ export default function Article(props) {
               {updated_date}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              { ReactHtmlParser(article.body)};
+              { ReactHtmlParser(article.body) }
             </Typography>
-            <Box pt={4}>
-              <Divider variant="li" />
-            </Box>
-            <Box pt={4}>
-              <Card className={classes.divider} p={2}>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Comments
+            <Box pt={1}>
+      <Divider variant="li" />
+    </Box>
+
+    <Box pt={1} >
+
+      <Card className={classes.divider} m={4}>
+
+        <Comment article={article._id} parentCallback={callbackFunction}/>
+      </Card>
+
+    </Box>
+
+        <Box pt={1}>
+          <Divider variant="li" />
+        </Box>
+
+        {data.comments.map((comment) => {
+          return (
+
+            <Paper elevation={1} className={classes.paper}>
+              <Box p={1} mb={1}>
+                <Typography variant="h6" className={classes.commentTitle} gutterBottom>
+                  {comment.username}
                 </Typography>
-                <Comment article={article._id}/>
-              </Card>
-              <Box pt={4} >
-                <Box pt={2}>
-                  <Divider variant="li" />
-                </Box>
-                {data.comments.map((comment) => {
-                  return (
-                    <Paper elevation={1} className={classes.paper}>
-                    <Box p={2}>
-                        <Typography variant="h6" className={classes.commentTitle} gutterBottom>
-                          {comment.username}
-                        </Typography>
-                        <Typography   variant="subtitle1">
-                          {moment(new Date(comment.updatedAt)).fromNow()}
-                        </Typography>
-                        <Typography  variant="subtitle1" color="textSecondary">
-                           {comment.text.split('\n\n').map(function(item) {
-                              return (
-                                <span>
-                                  {item}
-                                  <br/>
-                                </span>
-                              )
-                            })}
-                        </Typography>
-                    </Box>
-                   </Paper>
-                  )
-                })}
+                <Typography   variant="subtitle1">
+                  {moment(new Date(comment.updatedAt)).fromNow()}
+                </Typography>
+                <Typography  variant="subtitle1" color="textSecondary">
+                   {comment.text.split('\n\n').map(function(item) {
+                      return (
+                        <span>
+                          {item}
+                          <br/>
+                        </span>
+                      )
+                    })}
+                </Typography>
               </Box>
-            </Box> 
+           </Paper>
+          )
+        })}
+
           </Container> 
 
         </Paper>
