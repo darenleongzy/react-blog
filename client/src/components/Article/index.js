@@ -40,7 +40,6 @@ export default function Article(props) {
   const classes = useStyles();
   const content = article.body;
   const article_id = article._id;
-  console.log("final", article_id)
   const updated_date = moment(new Date(article.updatedAt)).format('MMMM Do YYYY');
 
     
@@ -62,7 +61,6 @@ export default function Article(props) {
   },[refreshKey, article_id]);
 
 
-  // console.log("fetched comments: ",data);
   return (
     article._id ? 
       (

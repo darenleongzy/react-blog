@@ -35,6 +35,7 @@ mongoose.set('debug', true);
 // Add models
 require('./models/Articles');
 require('./models/Comments');
+require('./models/Admin');
 // Add routes
 app.use(require('./routes'));
 
