@@ -76,7 +76,7 @@ export default function Article(props) {
               <br/>
               {updated_date}
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant="body2" component="p">
               { ReactHtmlParser(article.body) }
             </Typography>
             <Box pt={1}>
