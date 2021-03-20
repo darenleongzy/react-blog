@@ -60,7 +60,7 @@ const App = (props) => {
       <Toolbar/>
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/admin" component={Submit} />
+      {/*<Route exact path="/admin" component={Submit} /> */}
       <Route exact path="/archives" component={Archives} />
       <Route exact path="/single" render={props => <Single article={props} /> } />
 
