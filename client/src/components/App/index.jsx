@@ -16,7 +16,7 @@ import { Archives } from '../../components';
 import { Editor } from '../../components';
 import { Submit } from '../../components';
 import { Single } from '../../components';
-
+import {NotFound } from '../../components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +63,7 @@ const App = (props) => {
       {/*<Route exact path="/admin" component={Submit} /> */}
       <Route exact path="/archives" component={Archives} />
       <Route exact path="/single" render={props => <Single article={props} /> } />
+      <Route component={NotFound} />
 
 
     </Switch>

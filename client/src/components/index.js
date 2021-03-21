@@ -7,3 +7,4 @@ export { default as Default } from './Default';
 export { default as Article } from './Article';
 export { default as History } from './History';
 export { default as Single } from './Single';
+export { default as NotFound } from './Error';
