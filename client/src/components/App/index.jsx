@@ -44,12 +44,12 @@ const App = (props) => {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-	        <Box pl={4} style={{flex: 1}}>
+	        <Box style={{flex: 1}}>
           	<Typography variant="h6"  onClick = { () => history.push('/')}>
             	Tech Blog
           	</Typography>
-          	</Box>
-          	<Box pr={5}>
+        	</Box>
+        	<Box pr={5}>
 	        	<Button className={classes.button} color="inherit"onClick={() => { history.push('/') }}>Home</Button>
 	        	{/* <Button className={classes.button} color="inherit">About</Button>
 	        	 <Button className={classes.button} color="inherit" onClick={() => { history.push('/archives') }}> Archives</Button>

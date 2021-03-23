@@ -99,7 +99,7 @@ export default function Article(props) {
         {data.comments.map((comment) => {
           return (
 
-            <Paper elevation={1} className={classes.paper}>
+            <Paper elevation={2} className={classes.paper}>
               <Box p={1} mb={1}>
                 <Typography variant="h6" className={classes.commentTitle} gutterBottom>
                   {comment.username}

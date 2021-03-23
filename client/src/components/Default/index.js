@@ -21,7 +21,7 @@ const drawerWidth = '30%';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    width: "80%",
+    width: "90%",
     height: "100%",
   },
   card: {

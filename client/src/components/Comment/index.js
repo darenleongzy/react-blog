@@ -56,7 +56,7 @@ class Comment extends React.Component {
     const { text, username, article } = this.state;
 
     return (
-      <Box p={7}>
+      <Box p={1}>
           <Typography gutterBottom variant="h5" component="h2">
            Comments
           </Typography>
