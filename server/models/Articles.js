@@ -6,6 +6,10 @@ const ArticlesSchema = new Schema({
 	title: String,
 	body: String,
 	author: String,
+	image:  {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Images"
+	}
 }, {timestamps: true});
 
 ArticlesSchema.methods.toJSON = function() {
@@ -14,6 +18,7 @@ ArticlesSchema.methods.toJSON = function() {
 		title: this.title,
 		body: this.body,
 		author: this.author,
+		image: this.image,
 		createdAt: this.createdAt,
 		updatedAt: this.updatedAt,
 	};

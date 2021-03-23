@@ -35,6 +35,8 @@ class Submit extends React.Component {
     setEdit(article);
   }
 
+
+
   render() {
     const { articles } = this.props;
 

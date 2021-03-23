@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+router.use('/comments', require('./comments'));const mongoose = require('mongoose');
 const router = require('express').Router();
 const Articles = mongoose.model('Articles');
 
@@ -25,6 +25,13 @@ router.post('/', (req, res, next) => {
     return res.status(422).json({
       errors: {
         body: 'is required',
+      },
+    });
+  }
+  if(!body.image) {
+    return res.status(422).json({
+      errors: {
+        image: 'is required',
       },
     });
   }
