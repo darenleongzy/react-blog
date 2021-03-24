@@ -1,3 +1,6 @@
 runtime: nodejs10
 
 service: api
+
+env_variables:
+  GCLOUD_STORAGE_BUCKET: blog_image_store
