@@ -3,24 +3,8 @@ const router = require('express').Router();
 // router.use('/comments', require('./comments'));
 const Articles = mongoose.model('Articles');
 const Images = mongoose.model('Images');
-var fs = require('fs');
-var path = require('path');
-require('dotenv/config');
 
-var multer = require('multer');
- 
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.resolve("./images/"))
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-});
- 
-var upload = multer({ storage: storage });
-
-router.post('/', upload.single('image'), (req, res, next) => {
+router.post('/', (req, res, next) => {
   console.log('post detected');
   const { body } = req;
 
@@ -55,12 +39,11 @@ router.post('/', upload.single('image'), (req, res, next) => {
     });
   } 
   console.log(body);
-  let image = path.resolve("./images") + "/" + body.image;
   const newArticle = new Articles({
     title: body.title,
     author: body.author,
     body: body.body,
-    image: image,
+    image: body.image,
   });
 
   return newArticle.save()
@@ -109,8 +92,7 @@ router.patch('/:id', (req, res, next) => {
   console.log(body.image);
   if(typeof body.image !== 'undefined') {
     console.log('changing');
-    let image = path.resolve("./images") + "/" + body.image;
-    req.article.image = image;
+    req.article.image = body.image;
     console.log('image',req.article.image);
   }
 

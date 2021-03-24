@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const router = require('express').Router();
 const Images = mongoose.model('Images');
+
+const {format} = require('util');
 var fs = require('fs');
 var path = require('path');
 require('dotenv/config');
@@ -42,7 +44,7 @@ router.post('/', multer.single('image'), (req, res, next) => {
     const publicUrl = format(
       `https://storage.googleapis.com/${bucket.name}/${blob.name}`
     );
-    res.status(200).send(publicUrl);
+    res.json({imagePath: publicUrl});
   });
 
   blobStream.end(req.file.buffer);

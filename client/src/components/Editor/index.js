@@ -46,7 +46,7 @@ class Editor extends React.Component {
       axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/images', image)
       .then((res)=> {
         console.log('res', res);
-        imagePath = res.data.image.imagePath;
+        imagePath = res.data.imagePath;
         console.log('imagePath', imagePath);
         if (!articleToEdit) {
 
