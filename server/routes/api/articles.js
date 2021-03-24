@@ -1,8 +1,27 @@
-router.use('/comments', require('./comments'));const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const router = require('express').Router();
+// router.use('/comments', require('./comments'));
 const Articles = mongoose.model('Articles');
+const Images = mongoose.model('Images');
+var fs = require('fs');
+var path = require('path');
+require('dotenv/config');
 
-router.post('/', (req, res, next) => {
+var multer = require('multer');
+ 
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.resolve("./images/"))
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+ 
+var upload = multer({ storage: storage });
+
+router.post('/', upload.single('image'), (req, res, next) => {
+  console.log('post detected');
   const { body } = req;
 
   if(!body.title) {
@@ -34,11 +53,18 @@ router.post('/', (req, res, next) => {
         image: 'is required',
       },
     });
-  }
+  } 
+  console.log(body);
+  let image = path.resolve("./images") + "/" + body.image;
+  const newArticle = new Articles({
+    title: body.title,
+    author: body.author,
+    body: body.body,
+    image: image,
+  });
 
-  const finalArticle = new Articles(body);
-  return finalArticle.save()
-    .then(() => res.json({ article: finalArticle.toJSON() }))
+  return newArticle.save()
+    .then(() => res.json({ article: newArticle.toJSON() }))
     .catch(next);
 });
 
@@ -79,6 +105,13 @@ router.patch('/:id', (req, res, next) => {
 
   if(typeof body.body !== 'undefined') {
     req.article.body = body.body;
+  }
+  console.log(body.image);
+  if(typeof body.image !== 'undefined') {
+    console.log('changing');
+    let image = path.resolve("./images") + "/" + body.image;
+    req.article.image = image;
+    console.log('image',req.article.image);
   }
 
   return req.article.save()

@@ -40,8 +40,8 @@ require('./models/Images');
 app.use(require('./routes'));
 
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
+  const err = new Error('Not Found1');
+  err.status = 403;
   next(err);
 });
 

@@ -1,57 +1,50 @@
 const mongoose = require('mongoose');
 const router = require('express').Router();
 const Images = mongoose.model('Images');
+var fs = require('fs');
+var path = require('path');
+require('dotenv/config');
 
-// router.post('/', (req, res, next) => {
-//   const { body } = req;
+var multer = require('multer');
+ 
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.resolve("./images/"))
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + '.jpg')
+    }
+});
+ 
+var upload = multer({ storage: storage });
 
-//   if(!body.title) {
-//     return res.status(422).json({
-//       errors: {
-//         title: 'is required',
-//       },
-//     });
-//   }
+router.post('/', upload.single('image'), (req, res, next) => {
+  console.log("image req:", req);
+  var imagePath = req.file.filename;
+  const newImage = new Images({
+    imagePath: imagePath,
+  });
+  return newImage.save()
+    .then(() => res.json({ image: newImage.toJSON() }))
+});
 
-//   if(!body.author) {
-//     return res.status(422).json({
-//       errors: {
-//         author: 'is required',
-//       },
-//     });
-//   }
+router.get('/', (req, res, next) => {
+  return Articles.find()
+    .sort({ createdAt: 'descending' })
+    .then((articles) => res.json({ articles: articles.map(article => article.toJSON()) }))
+    .catch(next);
+});
 
-//   if(!body.body) {
-//     return res.status(422).json({
-//       errors: {
-//         body: 'is required',
-//       },
-//     });
-//   }
-
-//   const finalArticle = new Articles(body);
-//   return finalArticle.save()
-//     .then(() => res.json({ article: finalArticle.toJSON() }))
-//     .catch(next);
-// });
-
-// router.get('/', (req, res, next) => {
-//   return Articles.find()
-//     .sort({ createdAt: 'descending' })
-//     .then((articles) => res.json({ articles: articles.map(article => article.toJSON()) }))
-//     .catch(next);
-// });
-
-// router.param('id', (req, res, next, id) => {
-//   return Articles.findById(id, (err, article) => {
-//     if(err) {
-//       return res.sendStatus(404);
-//     } else if(article) {
-//       req.article = article;
-//       return next();
-//     }
-//   }).catch(next);
-// });
+router.param('id', (req, res, next, id) => {
+  return Images.findById(id, (err, image) => {
+    if(err) {
+      return res.sendStatus(404);
+    } else if(image) {
+      req.article = article;
+      return next();
+    }
+  }).catch(next);
+});
 
 // router.get('/:id', (req, res, next) => {
 //   return res.json({

@@ -41,23 +41,53 @@ class Editor extends React.Component {
     const { onSubmit, articleToEdit, onEdit } = this.props;
     const { title, body, author, image } = this.state;
     console.log("yes ", image);
-    if(!articleToEdit) {
-      return axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles', {
-        title,
-        body,
-        author,
+    var imagePath;
+    if (image) {
+      axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/images', image)
+      .then((res)=> {
+        console.log('res', res);
+        imagePath = res.data.image.imagePath;
+        console.log('imagePath', imagePath);
+        if (!articleToEdit) {
+
+          return axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles', {
+              title,
+              body,
+              author,
+              image: imagePath,
+          })
+            .then((res) => onSubmit(res.data))
+            .then(() => this.setState({ title: '', body: '', author: '', image: ''}));
+        }
+
+        else {
+          console.log("update with image");
+
+          return axios.patch(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles/${articleToEdit._id}`, {
+            title,
+            body,
+            author,
+            image: imagePath,
+          })
+            .then((res) => onEdit(res.data))
+            .then(() => this.setState({ title: '', body: '', author: '', image: ''}));
+        }
       })
-        .then((res) => onSubmit(res.data))
-        .then(() => this.setState({ title: '', body: '', author: '', image: ''}));
-    } else {
-      return axios.patch(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles/${articleToEdit._id}`, {
-        title,
-        body,
-        author,
-      })
-        .then((res) => onEdit(res.data))
-        .then(() => this.setState({ title: '', body: '', author: '', image: ''}));
+    } 
+
+    else {
+      if (articleToEdit) {
+        console.log("update without image");
+        return axios.patch(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles/${articleToEdit._id}`, {
+          title,
+          body,
+          author,
+        })
+          .then((res) => onEdit(res.data))
+          .then(() => this.setState({ title: '', body: '', author: '', image: ''}));
+      }
     }
+    
   }
 
   handleChangeField(key, event) {
@@ -74,10 +104,13 @@ class Editor extends React.Component {
   }
 
   onFileChangeHandler(event) {
-    console.log(event.target.files);
-    if (event.target.files[0]!= null && event.target.files[0].size <= 15000) {
+    if (event.target.files[0] && event.target.files[0].size <= 150000000) {
+      console.log("setState for file");
+      let formData = new FormData();
+
+      formData.append("image", event.target.files[0]);
       this.setState({
-        image: event.target.files[0],
+        image: formData,
       });
     }
   }

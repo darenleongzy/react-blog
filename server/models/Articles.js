@@ -6,10 +6,7 @@ const ArticlesSchema = new Schema({
 	title: String,
 	body: String,
 	author: String,
-	image:  {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "Images"
-	}
+	image: String,
 }, {timestamps: true});
 
 ArticlesSchema.methods.toJSON = function() {
