@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // import Image from '@ckeditor/ckeditor5-image/src/image';
+// import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
+
 
 
 
@@ -46,7 +48,7 @@ class Editor extends React.Component {
       axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/images', image)
       .then((res)=> {
         console.log('res', res);
-        imagePath = res.data.imagePath;
+        imagePath = res.data.url;
         console.log('imagePath', imagePath);
         if (!articleToEdit) {
 
@@ -105,10 +107,11 @@ class Editor extends React.Component {
 
   onFileChangeHandler(event) {
     if (event.target.files[0] && event.target.files[0].size <= 150000000) {
-      console.log("setState for file");
+      console.log("setState for file", event.target.files[0]);
       let formData = new FormData();
 
       formData.append("image", event.target.files[0]);
+      console.log("form-data", formData);
       this.setState({
         image: formData,
       });
@@ -135,6 +138,12 @@ class Editor extends React.Component {
           placeholder="Article Author"
         />
         <CKEditor
+          config= {{ 
+            simpleUpload: {
+                                // Upload the images to the server using the CKFinder QuickUpload command.
+                                uploadUrl: 'https://api-dot-darenleong-webapp.et.r.appspot.com:/api/images/upload'
+                            }
+          }}
           editor={ ClassicEditor }
           data={body}
           onInit={ editor => {

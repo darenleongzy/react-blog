@@ -26,7 +26,7 @@ router.post('/', multer.single('image'), (req, res, next) => {
     res.status(400).send('No file uploaded.');
     return;
   }
-  console.log("image req:", req);
+  console.log("image req:", req.file);
   var imagePath = req.file.filename;
 
     // Create a new blob in the bucket and upload the file data.
@@ -44,7 +44,7 @@ router.post('/', multer.single('image'), (req, res, next) => {
     const publicUrl = format(
       `https://storage.googleapis.com/${bucket.name}/${blob.name}`
     );
-    res.json({imagePath: publicUrl});
+    res.json({url: publicUrl});
   });
 
   blobStream.end(req.file.buffer);
@@ -54,6 +54,38 @@ router.post('/', multer.single('image'), (req, res, next) => {
   // });
   // return newImage.save()
   //   .then(() => res.json({ image: newImage.toJSON() }))
+});
+
+router.post('/upload', multer.single('upload'), (req, res, next) => {
+  if (!req.file) {
+    res.status(400).send('No file uploaded.');
+    return;
+  }
+
+  console.log("form-data", req.file);
+  
+  var imagePath = req.file.filename;
+
+  //   // Create a new blob in the bucket and upload the file data.
+  const blob = bucket.file(req.file.originalname);
+  const blobStream = blob.createWriteStream({
+    resumable: false,
+  });
+
+  blobStream.on('error', err => {
+    next(err);
+  });
+
+  blobStream.on('finish', () => {
+    // The public URL can be used to directly access the file via HTTP.
+    const publicUrl = format(
+      `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+    );
+    res.json({url: publicUrl});
+  });
+
+  blobStream.end(req.file.buffer);
+
 });
 
 router.get('/', (req, res, next) => {

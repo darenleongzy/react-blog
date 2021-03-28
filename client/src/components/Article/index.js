@@ -33,6 +33,11 @@ const useStyles = makeStyles({
   commenTitle: {
     fontSize: 14,
   },
+  image: {
+    width: '100%',
+    height: '100%',
+    marginBottom:40,
+  },
 });
 
 export default function Article(props) {
@@ -60,7 +65,7 @@ export default function Article(props) {
     };
     fetchData();
   },[refreshKey, article_id]);
-
+  let image = article.image.split('/images/')[1];
 
   // console.log("fetched comments: ",data);
   return (
@@ -68,14 +73,17 @@ export default function Article(props) {
       (
         <Paper elevation={1}  m={10}>
           <Container className={classes.container}>
+          <img src={image} className={classes.image} />
             <Typography gutterBottom variant="h4" component="h4">
               {article.title}
             </Typography>
-            <Typography gutterBottom variant="subtitle1" component="subtitle1">
+            <Box mb={4}>
+            <Typography gutterBottom variant="subtitle1" component="subtitle1" >
               {article.author}
               <br/>
               {updated_date}
             </Typography>
+            </Box>
             <Typography variant="body2" component="p">
               { ReactHtmlParser(article.body) }
             </Typography>
@@ -92,15 +100,12 @@ export default function Article(props) {
 
     </Box>
 
-        <Box pt={1}>
-          <Divider variant="li" />
-        </Box>
 
         {data.comments.map((comment) => {
           return (
-
-            <Paper elevation={2} className={classes.paper}>
-              <Box p={1} mb={1}>
+            <Box pt={1} m={3}>
+            <Paper elevation={3} p={2} className={classes.paper}>
+              <Box p={3}>
                 <Typography variant="h6" className={classes.commentTitle} gutterBottom>
                   {comment.username}
                 </Typography>
@@ -117,8 +122,9 @@ export default function Article(props) {
                       )
                     })}
                 </Typography>
-              </Box>
-           </Paper>
+                </Box>
+              </Paper>
+             </Box>
           )
         })}
 
