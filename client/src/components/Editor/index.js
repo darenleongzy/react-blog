@@ -42,14 +42,14 @@ class Editor extends React.Component {
   handleSubmit(){
     const { onSubmit, articleToEdit, onEdit } = this.props;
     const { title, body, author, image } = this.state;
-    console.log("yes ", image);
+    // console.log("yes ", image);
     var imagePath;
     if (image) {
       axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/images', image)
       .then((res)=> {
-        console.log('res', res);
+        // console.log('res', res);
         imagePath = res.data.url;
-        console.log('imagePath', imagePath);
+        // console.log('imagePath', imagePath);
         if (!articleToEdit) {
 
           return axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles', {
@@ -63,7 +63,7 @@ class Editor extends React.Component {
         }
 
         else {
-          console.log("update with image");
+          // console.log("update with image");
 
           return axios.patch(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles/${articleToEdit._id}`, {
             title,
@@ -79,7 +79,7 @@ class Editor extends React.Component {
 
     else {
       if (articleToEdit) {
-        console.log("update without image");
+        // console.log("update without image");
         return axios.patch(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles/${articleToEdit._id}`, {
           title,
           body,
@@ -107,11 +107,11 @@ class Editor extends React.Component {
 
   onFileChangeHandler(event) {
     if (event.target.files[0] && event.target.files[0].size <= 150000000) {
-      console.log("setState for file", event.target.files[0]);
+      // console.log("setState for file", event.target.files[0]);
       let formData = new FormData();
 
       formData.append("image", event.target.files[0]);
-      console.log("form-data", formData);
+      // console.log("form-data", formData);
       this.setState({
         image: formData,
       });
@@ -148,18 +148,18 @@ class Editor extends React.Component {
           data={body}
           onInit={ editor => {
               // You can store the "editor" and use when it is needed.
-              console.log( 'Editor is ready to use!', editor );
+              // console.log( 'Editor is ready to use!', editor );
           } }
           onChange={ ( event, editor ) => {
               const data = editor.getData();
-              console.log( { event, editor, data } );
+              // console.log( { event, editor, data } );
               this.handlePostField('body', data);
           } }
           onBlur={ ( event, editor ) => {
-              console.log( 'Blur.', editor );
+              // console.log( 'Blur.', editor );
           } }
           onFocus={ ( event, editor ) => {
-              console.log( 'Focus.', editor );
+              // console.log( 'Focus.', editor );
           } }
         />
          <input type="file" name="file" onChange={this.onFileChangeHandler}/>

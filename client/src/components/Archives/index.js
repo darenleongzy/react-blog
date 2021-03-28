@@ -68,9 +68,9 @@ export default function Archives() {
     fetchData();
   }, []);
 
-  // console.log(title);
+  // // console.log(title);
   const handleContent = (index) => {
-    console.log(data.articles[index]);
+    // console.log(data.articles[index]);
     if (data.articles[index]) {
       setContent(data.articles[index]);        
     }

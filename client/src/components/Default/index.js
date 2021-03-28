@@ -48,10 +48,10 @@ export default function Default() {
     fetchData();
   }, []);
 
-  // console.log(title);
+  // // console.log(title);
   const displayContent = (props) => {
-    console.log("yo whats up ", props.index);
-    console.log("data ", data);
+    // console.log("yo whats up ", props.index);
+    // console.log("data ", data);
     const index = props.index;
 
 
@@ -63,13 +63,13 @@ export default function Default() {
       });        
     }
     else {
-      console.log('cant find content');
+      // console.log('cant find content');
     }
     // let article = content;
     
     // setSingleContent(true);
-    // console.log(singleContent);
-    // console.log(content);
+    // // console.log(singleContent);
+    // // console.log(content);
 
   };
 
