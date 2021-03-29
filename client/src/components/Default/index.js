@@ -11,6 +11,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Card from '../Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import DefaultAppBar from '../AppBar';
+import Box from '@material-ui/core/CardActionArea';
+
 // import history from '../History';
 import axios from 'axios';
 import Container from '@material-ui/core/Container';
@@ -24,9 +26,8 @@ const useStyles = makeStyles((theme) => ({
     width: "90%",
     height: "100%",
   },
-  card: {
+  box: {
     padding:20,
-
   }
 }));
 
@@ -80,11 +81,11 @@ export default function Default() {
       <Container className={classes.container}>
         <List>
           {data.articles.map((article, index) => (
-            <div className={classes.card} key={index} >
+            <Box className={classes.box} key={index} >
             <CardActionArea  onClick={() => displayContent({index})} >
-              <Card  article={article} word='500' key={index} valueId={index}/> 
+              <Card  article={article} word='1000' key={index} valueId={index}/> 
             </CardActionArea>  
-            </div>
+            </Box>
           ))}
         </List>
   
