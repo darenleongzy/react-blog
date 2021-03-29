@@ -30,7 +30,7 @@ export default function ImgMediaCard({article, word, valueId, ...other}) {
 // image={valueId % 2 === 0 ? image2 : image1}
   console.log("look here", article);
   let image = article.image;
-  console.log("image", image) 
+  // console.log("image", image) 
   return (
     <Card className={classes.root}>
       <CardActionArea>
