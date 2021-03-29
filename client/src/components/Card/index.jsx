@@ -29,8 +29,8 @@ export default function ImgMediaCard({article, word, valueId, ...other}) {
   const intro = article.body.toString().substring(0,word);
 // image={valueId % 2 === 0 ? image2 : image1}
   console.log("look here", article);
-  let image = article.image.split('/images/')[1];
-  // console.log("image", image) 
+  let image = article.image;
+  console.log("image", image) 
   return (
     <Card className={classes.root}>
       <CardActionArea>
