@@ -17,16 +17,23 @@ import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from
 var path = require('path');
 const useStyles = makeStyles({
   root: {
+    height: "100%",
+    width: "100%",
+  },
+  content: {
+    height: "30vh",
   },
   media: {
-    height: 270,
+    height: "30vh",
   }
 });
 
 export default function ImgMediaCard({article, word, valueId, ...other}) {
   const classes = useStyles();
   // const article = props.article;
-  const intro = article.body.toString().substring(0,word);
+  // const intro = article.body.toString().substring(0,word);
+  const intro = article.body.toString();
+
 // image={valueId % 2 === 0 ? image2 : image1}
   console.log("look here", article);
   let image = article.image;
@@ -38,7 +45,7 @@ export default function ImgMediaCard({article, word, valueId, ...other}) {
           component="img"
           src={image}
         />
-        <CardContent>
+        <CardContent textOverflow="hidden" className={classes.content}>
           <Typography gutterBottom variant="h5" component="h2">
             {article.title}
           </Typography>

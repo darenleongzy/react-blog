@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
   container: {
     padding: 20,
-    width: '80%',
+    maxWidth: '100%',
   },
    divider: {
     padding: 20,
@@ -38,6 +38,11 @@ const useStyles = makeStyles({
     height: '100%',
     marginBottom:40,
   },
+  content: {
+    width: '100%',
+    height: 'auto',
+    overwrite: "hidden",    
+  }
 });
 
 export default function Article(props) {
@@ -71,7 +76,7 @@ export default function Article(props) {
   return (
     article._id ? 
       (
-        <Paper elevation={1}  m={10}>
+        <Paper elevation={1}  m={10} >
           <Container className={classes.container}>
           <img src={image} className={classes.image} />
             <Typography gutterBottom variant="h4" component="h4">
@@ -84,8 +89,9 @@ export default function Article(props) {
               {updated_date}
             </Typography>
             </Box>
-            <Typography variant="body2" component="p">
-              { ReactHtmlParser(article.body) }
+            <Typography variant="body2" className={classes.content}>
+              {/*{ ReactHtmlParser(article.body) } */}
+              <div dangerouslySetInnerHTML={{ __html: article.body }} styles="width:100%"/>
             </Typography>
             <Box pt={1}>
       <Divider variant="li" />
