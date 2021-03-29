@@ -65,7 +65,7 @@ export default function Article(props) {
     };
     fetchData();
   },[refreshKey, article_id]);
-  let image = article.image.split('/images/')[1];
+  let image = article.image;
 
   // // console.log("fetched comments: ",data);
   return (
