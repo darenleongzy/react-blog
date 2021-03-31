@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 const App = (props) => {
   const classes = useStyles();
   useEffect(() => {
-    document.title = "Blog"
+    document.title = "Dalezy Tech Blog"
   }, [])
   
   return (
