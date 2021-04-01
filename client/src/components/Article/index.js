@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
   container: {
     padding: 20,
-    width: '80%',
+    maxWidth: '100%',
   },
    divider: {
     padding: 20,
@@ -33,6 +33,16 @@ const useStyles = makeStyles({
   commenTitle: {
     fontSize: 14,
   },
+  image: {
+    width: '100%',
+    height: '100%',
+    marginBottom:40,
+  },
+  content: {
+    width: '100%',
+    height: 'auto',
+    overwrite: "hidden",    
+  }
 });
 
 export default function Article(props) {
@@ -59,23 +69,27 @@ export default function Article(props) {
     };
     fetchData();
   },[refreshKey, article_id]);
-
+  let image = article.image;
 
   return (
     article._id ? 
       (
-        <Paper elevation={1}  m={10}>
+        <Paper elevation={1}  m={10} >
           <Container className={classes.container}>
+          <img src={image} className={classes.image} />
             <Typography gutterBottom variant="h4" component="h4">
               {article.title}
             </Typography>
-            <Typography gutterBottom variant="subtitle1" component="subtitle1">
+            <Box mb={4}>
+            <Typography gutterBottom variant="subtitle1" component="subtitle1" >
               {article.author}
               <br/>
               {updated_date}
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              { ReactHtmlParser(article.body) }
+            </Box>
+            <Typography variant="body2" className={classes.content}>
+              {/*{ ReactHtmlParser(article.body) } */}
+              <div dangerouslySetInnerHTML={{ __html: article.body }} styles="width:100%"/>
             </Typography>
             <Box pt={1}>
       <Divider variant="li" />
@@ -90,15 +104,12 @@ export default function Article(props) {
 
     </Box>
 
-        <Box pt={1}>
-          <Divider variant="li" />
-        </Box>
 
         {data.comments.map((comment) => {
           return (
-
-            <Paper elevation={1} className={classes.paper}>
-              <Box p={1} mb={1}>
+            <Box pt={1} m={3}>
+            <Paper elevation={3} p={2} className={classes.paper}>
+              <Box p={3}>
                 <Typography variant="h6" className={classes.commentTitle} gutterBottom>
                   {comment.username}
                 </Typography>
@@ -115,8 +126,9 @@ export default function Article(props) {
                       )
                     })}
                 </Typography>
-              </Box>
-           </Paper>
+                </Box>
+              </Paper>
+             </Box>
           )
         })}
 

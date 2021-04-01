@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react';
+import React, {  useEffect } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,10 +16,7 @@ import { Archives } from '../../components';
 import { Editor } from '../../components';
 import { Submit } from '../../components';
 import { Single } from '../../components';
-import { AuthContext } from "../../context/auth";
-import { PrivateRoute } from '../../components';
-import { Login } from '../../components';
-
+import {NotFound } from '../../components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,45 +36,37 @@ const useStyles = makeStyles((theme) => ({
 const App = (props) => {
   const classes = useStyles();
   useEffect(() => {
-    document.title = "Blog"
+    document.title = "Dalezy Tech Blog"
   }, [])
-  const existingTokens = JSON.parse(localStorage.getItem("tokens"));
-  const [authTokens, setAuthTokens] = useState(existingTokens);
-  
-  const setTokens = (data) => {
-    localStorage.setItem("tokens", JSON.stringify(data));
-    setAuthTokens(data);
-  }
   
   return (
   	<Box>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-	        <Box pl={4} style={{flex: 1}}>
+	        <Box style={{flex: 1}}>
           	<Typography variant="h6"  onClick = { () => history.push('/')}>
-            	SG Fin Free
+            	Tech Blog
           	</Typography>
-          	</Box>
-          	<Box pr={5}>
+        	</Box>
+        	<Box pr={5}>
 	        	<Button className={classes.button} color="inherit"onClick={() => { history.push('/') }}>Home</Button>
-	        	<Button className={classes.button} color="inherit">About</Button>
-	        	<Button className={classes.button} color="inherit" onClick={() => { history.push('/archives') }}> Archives</Button>
+	        	{/* <Button className={classes.button} color="inherit">About</Button>
+	        	 <Button className={classes.button} color="inherit" onClick={() => { history.push('/archives') }}> Archives</Button>
+             */}
 	        </Box>
         </Toolbar>
       </AppBar>
       <Toolbar/>
-    <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
     <Switch>
       <Route exact path="/" component={Home} />
-      <PrivateRoute exact path="/admin" component={Submit} />
+      <Route exact path="/admin" component={Submit} /> 
       <Route exact path="/archives" component={Archives} />
       <Route exact path="/single" render={props => <Single article={props} /> } />
-      <Route exact path="/login" component={Login} /> } />
+      <Route component={NotFound} />
 
 
     </Switch>
-    </AuthContext.Provider>
     </Box>
   )
 }

@@ -5,6 +5,7 @@ const session = require('express-session');
 const cors = require('cors');
 const errorHandler = require('errorhandler');
 const mongoose = require('mongoose');
+require('dotenv/config');
 
 mongoose.promise = global.Promise;
 
@@ -12,7 +13,9 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const app = express();
 
-const uri = "mongodb+srv://admin:9g4Xke41m@cluster0.peafp.mongodb.net/?retryWrites=true&w=majority"
+const uri = process.env.MONGODB_ATLAS_URI;
+
+console.log(uri);
 app.use(cors());
 app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -35,13 +38,13 @@ mongoose.set('debug', true);
 // Add models
 require('./models/Articles');
 require('./models/Comments');
-require('./models/Admin');
+require('./models/Images');
 // Add routes
 app.use(require('./routes'));
 
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
+  const err = new Error('Not Found1');
+  err.status = 403;
   next(err);
 });
 
@@ -60,7 +63,7 @@ if (!isProduction) {
 }
 
 app.use((err, req, res) => {
-  console.log("not production")
+  console.log("in production")
   res.status(err.status || 500);
 
   res.json({

@@ -3,7 +3,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import Image from '@ckeditor/ckeditor5-image/src/image';
+// import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
 
+
+
+
+// const custom_config = {
+//   t
+// }
 
 class Editor extends React.Component {
   constructor(props) {
@@ -13,10 +21,12 @@ class Editor extends React.Component {
       title: '',
       body: '',
       author: '',
+      image: '',
     }
 
     this.handleChangeField = this.handleChangeField.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onFileChangeHandler = this.onFileChangeHandler.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,25 +41,55 @@ class Editor extends React.Component {
 
   handleSubmit(){
     const { onSubmit, articleToEdit, onEdit } = this.props;
-    const { title, body, author } = this.state;
+    const { title, body, author, image } = this.state;
+    console.log("yes ", image);
+    var imagePath;
+    if (image) {
+      axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/images', image)
+      .then((res)=> {
+        console.log('res', res);
+        imagePath = res.data.url;
+        console.log('imagePath', imagePath);
+        if (!articleToEdit) {
 
-    if(!articleToEdit) {
-      return axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles', {
-        title,
-        body,
-        author,
+          return axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles', {
+              title,
+              body,
+              author,
+              image: imagePath,
+          })
+            .then((res) => onSubmit(res.data))
+            .then(() => this.setState({ title: '', body: '', author: '', image: ''}));
+        }
+
+        else {
+          console.log("update with image");
+
+          return axios.patch(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles/${articleToEdit._id}`, {
+            title,
+            body,
+            author,
+            image: imagePath,
+          })
+            .then((res) => onEdit(res.data))
+            .then(() => this.setState({ title: '', body: '', author: '', image: ''}));
+        }
       })
-        .then((res) => onSubmit(res.data))
-        .then(() => this.setState({ title: '', body: '', author: '' }));
-    } else {
-      return axios.patch(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles/${articleToEdit._id}`, {
-        title,
-        body,
-        author,
-      })
-        .then((res) => onEdit(res.data))
-        .then(() => this.setState({ title: '', body: '', author: '' }));
+    } 
+
+    else {
+      if (articleToEdit) {
+        console.log("update without image");
+        return axios.patch(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles/${articleToEdit._id}`, {
+          title,
+          body,
+          author,
+        })
+          .then((res) => onEdit(res.data))
+          .then(() => this.setState({ title: '', body: '', author: '', image: ''}));
+      }
     }
+    
   }
 
   handleChangeField(key, event) {
@@ -65,10 +105,22 @@ class Editor extends React.Component {
     });
   }
 
+  onFileChangeHandler(event) {
+    if (event.target.files[0] && event.target.files[0].size <= 150000000) {
+      console.log("setState for file", event.target.files[0]);
+      let formData = new FormData();
+
+      formData.append("image", event.target.files[0]);
+      console.log("form-data", formData);
+      this.setState({
+        image: formData,
+      });
+    }
+  }
 
   render() {
     const { articleToEdit } = this.props;
-    const { title, body, author } = this.state;
+    const { title, body, author, image } = this.state;
 
     return (
       
@@ -86,24 +138,32 @@ class Editor extends React.Component {
           placeholder="Article Author"
         />
         <CKEditor
-                    editor={ ClassicEditor }
-                    data={body}
-                    onInit={ editor => {
-                        // You can store the "editor" and use when it is needed.
-                        console.log( 'Editor is ready to use!', editor );
-                    } }
-                    onChange={ ( event, editor ) => {
-                        const data = editor.getData();
-                        console.log( { event, editor, data } );
-                        this.handlePostField('body', data);
-                    } }
-                    onBlur={ ( event, editor ) => {
-                        console.log( 'Blur.', editor );
-                    } }
-                    onFocus={ ( event, editor ) => {
-                        console.log( 'Focus.', editor );
-                    } }
-                />
+          config= {{ 
+            simpleUpload: {
+                                // Upload the images to the server using the CKFinder QuickUpload command.
+                                uploadUrl: 'https://api-dot-darenleong-webapp.et.r.appspot.com:/api/images/upload'
+                            }
+          }}
+          editor={ ClassicEditor }
+          data={body}
+          onInit={ editor => {
+              // You can store the "editor" and use when it is needed.
+              console.log( 'Editor is ready to use!', editor );
+          } }
+          onChange={ ( event, editor ) => {
+              const data = editor.getData();
+              console.log( { event, editor, data } );
+              this.handlePostField('body', data);
+          } }
+          onBlur={ ( event, editor ) => {
+              console.log( 'Blur.', editor );
+          } }
+          onFocus={ ( event, editor ) => {
+              console.log( 'Focus.', editor );
+          } }
+        />
+         <input type="file" name="file" onChange={this.onFileChangeHandler}/>
+
 
 
         <button onClick={this.handleSubmit} className="btn btn-primary float-right">{articleToEdit ? 'Update' : 'Submit'}</button>
