@@ -1,6 +1,9 @@
 # react-blog
 
-Sample blog template, written with React, and postgres database.
+A blog to share technical knowledge, written with MERN Stack (MongoDB, Express, React and NodeJs). 
+
+Website at darenleong-webapp.et.r.appspot.com/
+
 
 To run:
 
