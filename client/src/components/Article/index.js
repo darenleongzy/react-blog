@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   },
   image: {
     width: '100%',
-    height: '100%',
+    height: '30%',
     marginBottom:40,
   },
   content: {
@@ -71,6 +71,10 @@ export default function Article(props) {
   },[refreshKey, article_id]);
   let image = article.image;
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     article._id ? 
       (
@@ -88,8 +92,7 @@ export default function Article(props) {
             </Typography>
             </Box>
             <Typography variant="body2" className={classes.content}>
-              {/*{ ReactHtmlParser(article.body) } */}
-              <div dangerouslySetInnerHTML={{ __html: article.body }} styles="width:100%"/>
+              { ReactHtmlParser(article.body) } 
             </Typography>
             <Box pt={1}>
       <Divider variant="li" />

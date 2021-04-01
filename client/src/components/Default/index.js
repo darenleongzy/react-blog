@@ -23,11 +23,11 @@ const drawerWidth = '30%';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    width: "90%",
+    MaxWidth: "95%",
     height: "100%",
   },
   box: {
-    padding:20,
+    padding:10,
   }
 }));
 
