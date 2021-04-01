@@ -1,8 +1,8 @@
 # react-blog
 
-A blog to share technical knowledge, written with MERN Stack (MongoDB, Express, React and NodeJs). 
+A Tech Blog written with MERN Stack (MongoDB, Express, React and NodeJs), hosted on Google Cloud Platform, to discuss all things tech.
 
-Website at darenleong-webapp.et.r.appspot.com/
+To see the running react blog, visit dalezy.com
 
 
 To run:
