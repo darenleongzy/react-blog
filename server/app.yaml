@@ -4,3 +4,4 @@ service: api
 
 env_variables:
   GCLOUD_STORAGE_BUCKET: blog_image_store
+  MONGODB_ATLAS_URI: 'mongodb+srv://admin:9g4Xke41m1@cluster0.peafp.mongodb.net/?retryWrites=true&w=majority'
