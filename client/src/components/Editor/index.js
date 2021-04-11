@@ -49,9 +49,8 @@ class Editor extends React.Component {
       .then((res)=> {
         // console.log('res', res);
         imagePath = res.data.url;
-        // console.log('imagePath', imagePath);
+        console.log('imagePath', imagePath);
         if (!articleToEdit) {
-
           return axios.post('https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles', {
               title,
               body,
@@ -63,8 +62,7 @@ class Editor extends React.Component {
         }
 
         else {
-          // console.log("update with image");
-
+          // return axios.post('http://localhost:8080:/api/articles', {
           return axios.patch(`https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles/${articleToEdit._id}`, {
             title,
             body,

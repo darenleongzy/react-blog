@@ -7,6 +7,7 @@ const ArticlesSchema = new Schema({
 	body: String,
 	author: String,
 	image: String,
+	urlTitle: String,
 }, {timestamps: true});
 
 ArticlesSchema.methods.toJSON = function() {
@@ -18,6 +19,7 @@ ArticlesSchema.methods.toJSON = function() {
 		image: this.image,
 		createdAt: this.createdAt,
 		updatedAt: this.updatedAt,
+		urlTitle: this.urlTitle,
 	};
 };
 

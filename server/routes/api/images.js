@@ -20,7 +20,6 @@ const multer = Multer({
  
 const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
 
-
 router.post('/', multer.single('image'), (req, res, next) => {
   if (!req.file) {
     res.status(400).send('No file uploaded.');

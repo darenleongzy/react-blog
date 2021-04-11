@@ -37,12 +37,21 @@ router.post('/', (req, res, next) => {
       },
     });
   } 
-  console.log(body);
+  const urlList =  body.title.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '').split(" ");
+  var urlTitle = urlList[0];
+  for (i = 1; i < urlList.length; i++) {
+    if (i > 15)
+      break;
+    urlTitle += "-" + urlList[i];
+  }
+
+  console.log(urlTitle);
   const newArticle = new Articles({
     title: body.title,
     author: body.author,
     body: body.body,
     image: body.image,
+    urlTitle: urlTitle,
   });
 
   return newArticle.save()
@@ -79,6 +88,14 @@ router.patch('/:id', (req, res, next) => {
 
   if(typeof body.title !== 'undefined') {
     req.article.title = body.title;
+    const urlList =  body.title.toLowerCase().replace(/[^a-zA-Z0-9 ]/g, '').split(" ");
+    var urlTitle = urlList[0];
+    for (i = 1; i < urlList.length; i++) {
+      if (i > 15)
+        break;
+      urlTitle += "-" + urlList[i];
+    }
+    req.article.urlTitle = urlTitle;
   }
 
   if(typeof body.author !== 'undefined') {

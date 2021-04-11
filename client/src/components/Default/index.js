@@ -53,7 +53,7 @@ export default function Default() {
 
 
     if (data.articles[index]) {
-      let urlTitle = 'url-title'
+      let urlTitle = data.articles[index].urlTitle;
       history.push({
         pathname: '/article/'+data.articles[index]._id + '/' + urlTitle,
         state: { article: data.articles[index]},
