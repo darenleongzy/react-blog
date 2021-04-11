@@ -8,13 +8,14 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Comment from "../Comment";
 import moment from "moment";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import ReactHtmlParser, {
   processNodes,
   convertNodeToElement,
   htmlparser2,
 } from "react-html-parser";
 import axios from "axios";
+// import Prism from "prismjs";
+// import "prismjs/themes/prism-okaidia.css";
 
 const useStyles = makeStyles({
   paper: {
@@ -74,9 +75,14 @@ export default function Article(props) {
   let image = article.image;
 
   useEffect(() => {
+    console.log("hi1");
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    // console.log("hi2");
+    // Prism.highlightAll();
+  }, []);
   return article._id ? (
     <Paper elevation={1} m={10}>
       <Container className={classes.container}>
@@ -91,13 +97,13 @@ export default function Article(props) {
             {updated_date}
           </Typography>
         </Box>
-        <Typography
+        {/* <Typography
           variant="body2"
           className={classes.content}
           component="span"
-        >
-          {ReactHtmlParser(article.body)}
-        </Typography>
+        > */}
+        {ReactHtmlParser(article.body)}
+        {/* </Typography> */}
         <Box pt={1}>
           <Divider />
         </Box>

@@ -1,19 +1,16 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-  entry: [
-    'babel-polyfill',
-    './src/index.js',
-  ],
+  entry: ["babel-polyfill", "./src/index.js"],
 
   output: {
-    publicPath: '/',
-    filename: './main.js',
+    publicPath: "/",
+    filename: "./main.js",
   },
 
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: [".js", ".jsx"],
   },
 
   module: {
@@ -21,16 +18,16 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        use: ["babel-loader"],
       },
 
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         use: {
-          loader: 'file-loader',
+          loader: "file-loader",
           options: {
-            name: 'public/img/[name].[ext]',
-            outputPath: 'dist/img/',
+            name: "public/img/[name].[ext]",
+            outputPath: "dist/img/",
           },
         },
       },
@@ -38,14 +35,14 @@ module.exports = {
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [{ loader: 'css-loader' }, 'sass-loader'],
+          fallback: "style-loader",
+          use: [{ loader: "css-loader" }, "sass-loader"],
         }),
       },
       {
         test: /\.html$/,
         use: {
-          loader: 'html-loader',
+          loader: "html-loader",
           options: {
             minimize: true,
           },
@@ -53,27 +50,31 @@ module.exports = {
       },
       {
         test: /\.(otf|ttf|eot|woff|woff2)$/,
-        loader: 'file-loader',
+        loader: "file-loader",
         options: {
-          name: 'public/fonts/[name].[ext]',
-          outputPath: 'dist/fonts',
+          name: "public/fonts/[name].[ext]",
+          outputPath: "dist/fonts",
         },
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
 
   plugins: [
-    new ExtractTextPlugin({ filename: 'style.css' }),
+    new ExtractTextPlugin({ filename: "style.css" }),
     new HtmlWebpackPlugin({
-      template: './resources/index.html',
-      filename: './index.html',
+      template: "./resources/index.html",
+      filename: "./index.html",
       hash: true,
     }),
   ],
 
   devServer: {
     historyApiFallback: true,
-    publicPath: '/',
-    contentBase: './dist',
+    publicPath: "/",
+    contentBase: "./dist",
   },
 };
