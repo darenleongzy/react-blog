@@ -117,9 +117,9 @@ export default function Article(props) {
                   {moment(new Date(comment.updatedAt)).fromNow()}
                 </Typography>
                 <Typography  variant="subtitle1" color="textSecondary">
-                   {comment.text.split('\n\n').map(function(item) {
+                   {comment.text.split('\n\n').map((item, index) => {
                       return (
-                        <span>
+                        <span key={index}>
                           {item}
                           <br/>
                         </span>

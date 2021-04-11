@@ -34,7 +34,6 @@ export default function Login({article, word, valueId, ...other}) {
   // const { setAuthTokens } = useAuth();
 
   function postLogin() {
-    console.log(username, password);
     axios.post("https://api-dot-darenleong-webapp.et.r.appspot.com:/api/authenticate", {
       username,
       password

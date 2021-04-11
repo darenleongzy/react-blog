@@ -31,25 +31,18 @@ export default function Single(props) {
   const [value, setValue] = React.useState(0);
   const  [article, setArticle] = useState({});
   let { articleId } = useParams();
-  console.log('articleId1', articleId);
-  // const article = props.article.location.state.article;
-  // console.log('article', typeof(article));
   if (typeof(props.article.location.state) === 'undefined') {
-    console.log('article undefined, proceed to fetch');
     useEffect(() => {
       const fetchData = async() => {
         const result = await axios.get(
           'https://api-dot-darenleong-webapp.et.r.appspot.com:/api/articles'+'/'+articleId
         );
-        console.log('hi', result);
         setArticle(result.data.article);
 
       };
       fetchData();
     }, []);
-    console.log('finish fetch');
   }else {
-    console.log('Article exists',article);
     useEffect(() => {
       setArticle(props.article.location.state.article);
     }, []);

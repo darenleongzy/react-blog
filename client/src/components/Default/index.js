@@ -48,17 +48,12 @@ export default function Default() {
     fetchData();
   }, []);
 
-  // // console.log(title);
   const displayContent = (props) => {
-    // console.log("yo whats up ", props.index);
-    // console.log("data ", data);
     const index = props.index;
 
 
     if (data.articles[index]) {
-      // setContent(data.articles[index]);
       let urlTitle = 'url-title'
-      console.log('!!!!', data.articles[index]._id)
       history.push({
         pathname: '/article/'+data.articles[index]._id + '/' + urlTitle,
         state: { article: data.articles[index]},
@@ -67,11 +62,6 @@ export default function Default() {
     else {
       // console.log('cant find content');
     }
-    // let article = content;
-    
-    // setSingleContent(true);
-    // // console.log(singleContent);
-    // // console.log(content);
 
   };
 

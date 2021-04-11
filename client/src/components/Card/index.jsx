@@ -23,6 +23,7 @@ const useStyles = makeStyles({
   content: {
     height: "30vh",
     paddingBottom: 50,
+    marginBottom: 20,
   },
   media: {
     height: "30vh",
@@ -52,7 +53,7 @@ export default function ImgMediaCard({article, word, valueId, ...other}) {
           <Typography gutterBottom variant="h5" component="span">
             {article.title}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="span" className={classes.intro}>
+          <Typography variant="body2" color="textSecondary" component="span" className={classes.intro} >
             {ReactHtmlParser(intro)}
           </Typography>
         </CardContent>

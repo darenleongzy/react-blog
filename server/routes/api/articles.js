@@ -5,7 +5,6 @@ const Articles = mongoose.model('Articles');
 const Images = mongoose.model('Images');
 
 router.post('/', (req, res, next) => {
-  console.log('post detected');
   const { body } = req;
 
   if(!body.title) {
