@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -58,8 +57,10 @@ export default function Default() {
 
     if (data.articles[index]) {
       // setContent(data.articles[index]);
+      let urlTitle = 'url-title'
+      console.log('!!!!', data.articles[index]._id)
       history.push({
-        pathname: '/single',
+        pathname: '/article/'+data.articles[index]._id + '/' + urlTitle,
         state: { article: data.articles[index]},
       });        
     }
@@ -81,11 +82,9 @@ export default function Default() {
       <Container className={classes.container}>
         <List>
           {data.articles.map((article, index) => (
-            <Box className={classes.box} key={index} >
-            <CardActionArea  onClick={() => displayContent({index})} >
-              <Card  article={article} word='1000' key={index} valueId={index}/> 
+            <CardActionArea  onClick={() => displayContent({index})} className={classes.box} key={index}>
+              <Card  article={article} word='1000' key={index} valueId={index} onClick={() => displayContent({index})}/> 
             </CardActionArea>  
-            </Box>
           ))}
         </List>
   

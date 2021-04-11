@@ -39,25 +39,24 @@ export default function ImgMediaCard({article, word, valueId, ...other}) {
   const intro = article.body.toString();
 
 // image={valueId % 2 === 0 ? image2 : image1}
-  console.log("look here", article);
   let image = article.image;
   // console.log("image", image) 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      {/* <CardActionArea> */}
         <CardMedia className={classes.media}
           component="img"
           src={image}
         />
-        <CardContent textOverflow="hidden" className={classes.content}>
-          <Typography gutterBottom variant="h5" component="h2">
+        <CardContent className={classes.content}>
+          <Typography gutterBottom variant="h5" component="span">
             {article.title}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p" className={classes.intro}>
+          <Typography variant="body2" color="textSecondary" component="span" className={classes.intro}>
             {ReactHtmlParser(intro)}
           </Typography>
         </CardContent>
-      </CardActionArea>
+      {/* </CardActionArea> */}
     </Card>
   );
 }

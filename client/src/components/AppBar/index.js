@@ -23,7 +23,7 @@ export default function DefaultAppBar() {
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
         <Typography variant="h6" style={{flex: 1}}>
-          Tech Blog
+          Dalezy Tech Blog
         </Typography>
         <Button color="inherit">Home</Button>
         <Button color="inherit">About Me</Button>

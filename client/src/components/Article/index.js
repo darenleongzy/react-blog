@@ -1,11 +1,6 @@
 import React, { useState , useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
@@ -67,7 +62,9 @@ export default function Article(props) {
       );
         setData(result.data);
     };
-    fetchData();
+    if (typeof(article_id) !== 'undefined') {
+      fetchData();
+    }
   },[refreshKey, article_id]);
   let image = article.image;
 
@@ -81,21 +78,21 @@ export default function Article(props) {
         <Paper elevation={1}  m={10} >
           <Container className={classes.container}>
           <img src={image} className={classes.image} />
-            <Typography gutterBottom variant="h4" component="h4">
+            <Typography gutterBottom variant="h4" component="span">
               {article.title}
             </Typography>
             <Box mb={4}>
-            <Typography gutterBottom variant="subtitle1" component="subtitle1" >
+            <Typography gutterBottom variant="subtitle1" component="span" >
               {article.author}
               <br/>
               {updated_date}
             </Typography>
             </Box>
-            <Typography variant="body2" className={classes.content}>
+            <Typography variant="body2" className={classes.content} component="span">
               { ReactHtmlParser(article.body) } 
             </Typography>
             <Box pt={1}>
-      <Divider variant="li" />
+      <Divider />
     </Box>
 
     <Box pt={1} >
@@ -108,9 +105,9 @@ export default function Article(props) {
     </Box>
 
 
-        {data.comments.map((comment) => {
+        {data.comments.map((comment, index) => {
           return (
-            <Box pt={1} m={3}>
+            <Box pt={1} m={3} key={index}>
             <Paper elevation={3} p={2} className={classes.paper}>
               <Box p={3}>
                 <Typography variant="h6" className={classes.commentTitle} gutterBottom>
