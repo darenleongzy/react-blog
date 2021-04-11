@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from "react";
 
 export const AuthContext = createContext();
 
@@ -7,4 +7,3 @@ function useAuth() {
 }
 
 export default useAuth;
-
