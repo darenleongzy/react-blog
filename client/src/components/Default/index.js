@@ -9,15 +9,13 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Card from "../Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import DefaultAppBar from "../AppBar";
 import Box from "@material-ui/core/CardActionArea";
-
+import Loading from "../Loading";
 // import history from '../History';
 import axios from "axios";
 import Container from "@material-ui/core/Container";
 import { useHistory } from "react-router-dom";
 import { Article } from "../../components";
-
 const drawerWidth = "30%";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +25,13 @@ const useStyles = makeStyles((theme) => ({
   },
   box: {
     padding: 10,
+  },
+  loading: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 100,
+    height: "100vh",
   },
 }));
 
@@ -64,23 +69,29 @@ export default function Default() {
     <div>
       <CssBaseline />
       <Container className={classes.container}>
-        <List>
-          {data.articles.map((article, index) => (
-            <CardActionArea
-              onClick={() => displayContent({ index })}
-              className={classes.box}
-              key={index}
-            >
-              <Card
-                article={article}
-                word="1000"
-                key={index}
-                valueId={index}
+        {typeof data.articles[0] !== "undefined" ? (
+          <List>
+            {data.articles.map((article, index) => (
+              <CardActionArea
                 onClick={() => displayContent({ index })}
-              />
-            </CardActionArea>
-          ))}
-        </List>
+                className={classes.box}
+                key={index}
+              >
+                <Card
+                  article={article}
+                  word="1000"
+                  key={index}
+                  valueId={index}
+                  onClick={() => displayContent({ index })}
+                />
+              </CardActionArea>
+            ))}
+          </List>
+        ) : (
+          <Box className={classes.loading}>
+            <Loading type="bars" color="#203A43" align-content="center" />
+          </Box>
+        )}
       </Container>
     </div>
   );

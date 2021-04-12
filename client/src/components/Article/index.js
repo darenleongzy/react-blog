@@ -146,5 +146,9 @@ export default function Article(props) {
         })}
       </Container>
     </Paper>
-  ) : null;
+  ) : (
+    <Box className={classes.loading}>
+      <Loading type="bars" color="#203A43" align-content="center" />
+    </Box>
+  );
 }
