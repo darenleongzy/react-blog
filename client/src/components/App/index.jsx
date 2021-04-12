@@ -80,7 +80,7 @@ const App = (props) => {
         <Route exact path="/archives" component={Archives} />
         <Route exact path="/about" component={About} />
         <Route
-          path="/article/:articleId"
+          path="/article/:urlTitle/:articleId"
           render={(props) => <Single article={props} />}
         />
         <Route component={NotFound} />

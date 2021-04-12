@@ -52,7 +52,7 @@ export default function Default() {
     if (data.articles[index]) {
       let urlTitle = data.articles[index].urlTitle;
       history.push({
-        pathname: "/article/" + data.articles[index]._id + "/" + urlTitle,
+        pathname: "/article/" + urlTitle + "/" + data.articles[index]._id,
         state: { article: data.articles[index] },
       });
     } else {
