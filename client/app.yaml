@@ -9,10 +9,19 @@ resources:
   disk_size_gb: 10
 
 handlers:
-  - url: /.*
+  - url: /(.*\.(json|ico|js|css))$
+    static_files: dist/\1
+    upload: dist/.*\.(json|ico|js|css)$
+
+  - url: .*
     static_files: dist/index.html
-    upload: dist/index.html
     secure: always
     redirect_http_response_code: 301
-  - url: /
-    static_dir: dist
+    upload: dist/index.html
+  # - url: /(.*)/$
+  #   static_files: dist/\1/index.html
+  #   upload: dist/.*/index.html
+  #   secure: always
+  #   redirect_http_response_code: 301
+  # - url: /
+  #   static_dir: dist

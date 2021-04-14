@@ -14,6 +14,7 @@ import ReactHtmlParser, {
   htmlparser2,
 } from "react-html-parser";
 import axios from "axios";
+import Loading from "../Loading";
 // import Prism from "prismjs";
 // import "prismjs/themes/prism-okaidia.css";
 
