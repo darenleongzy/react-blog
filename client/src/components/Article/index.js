@@ -44,6 +44,13 @@ const useStyles = makeStyles({
     height: "auto",
     overwrite: "hidden",
   },
+  loading: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 100,
+    height: "100vh",
+  },
 });
 
 export default function Article(props) {

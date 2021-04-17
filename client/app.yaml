@@ -9,9 +9,9 @@ resources:
   disk_size_gb: 10
 
 handlers:
-  - url: /(.*\.(json|ico|js|css))$
+  - url: /(.*\.(json|ico|js|css|xml))$
     static_files: dist/\1
-    upload: dist/.*\.(json|ico|js|css)$
+    upload: dist/.*\.(json|ico|js|css|xml)$
 
   - url: .*
     static_files: dist/index.html

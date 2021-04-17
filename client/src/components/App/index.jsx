@@ -3,8 +3,8 @@ import { withRouter, Switch, Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
-import history from "../History";
-
+// import history from "../History";
+import { useHistory } from "react-router-dom";
 import { Home } from "../../components";
 import { Archives } from "../../components";
 import { Editor } from "../../components";
