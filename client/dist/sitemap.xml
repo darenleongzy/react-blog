@@ -5,5 +5,8 @@
 <url> <loc>https://dalezy.com/admin</loc> </url>
 <url> <loc>https://dalezy.com/archives</loc> </url>
 <url> <loc>https://dalezy.com/about</loc> </url>
-<url> <loc>https://dalezy.com/article/:urlTitle/:articleId</loc> </url>
+<url> <loc>https://dalezy.com/article/ckeditor-upload-images-with-custom-ckeditor-build-part-2/60616e4bfc967c002034cfa7</loc> </url>
+<url> <loc>https://dalezy.com/article/ckeditor-create-blog-posts-by-integrating-a-rich-text-format-editor-part-1/60615a08fc967c002034cfa5</loc> </url>
+<url> <loc>https://dalezy.com/article/from-a-web-project-poc-to-going-live/5fa63c85fa0b76001f0451c5</loc> </url>
+<url> <loc>https://dalezy.com/article/about-me/5f9e7fd9f295e91100da663d</loc> </url>
 </urlset>
